@@ -1,0 +1,9 @@
+DROP TABLE Article_Metadata;
+DROP TABLE Articles;
+DROP TABLE Atricle_Structure_Groups;
+DROP TABLE Article_Regions;
+DROP TABLE Article_Applications;
+DROP TABLE Article_Langs;
+DROP TABLE Article_Attributes;
+DROP TABLE Article_Assets;
+DROP TABLE Article_References;

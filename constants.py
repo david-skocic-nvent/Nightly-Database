@@ -1,0 +1,5 @@
+ARTICLES_FILEPATH = "Sample Data\\catalogdata-articles.xml"
+PRODUCT2GS_FILEPATH = "Sample Data\\catalogdata-product2gs.xml"
+STRUCTURE_FEATURES_FILEPATH = "Sample Data\\catalogdata-structurefeatures.xml"
+STRUCTURE_GROUPS_FILEPATH = "Sample Data\\catalogdata-structuregroups.xml"
+UNITS_FILEPATH = "Sample Data\\catalogdata-units.xml"
