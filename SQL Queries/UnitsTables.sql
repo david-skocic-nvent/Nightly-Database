@@ -8,10 +8,10 @@ CREATE TABLE Unit_Metadata(
 );
 
 CREATE TABLE Units (
-    PRIMARY KEY Code VARCHAR(25),
+    Code VARCHAR(40) PRIMARY KEY,
 	BaseUnitFactor FLOAT,
 	MeasurementSystem VARCHAR(10),
-	BaseUnit VARCHAR(30),
+	BaseUnit VARCHAR(40),
     Modified DATETIME,
 	[Name] VARCHAR(50),
 	[Language] VARCHAR(10),

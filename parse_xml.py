@@ -135,7 +135,24 @@ if __name__ == '__main__':
     rootdict = {}
 
     recursiveFill(units_root, rootdict)
-    #recursivePrint(rootdict)
     for k in rootdict:
         print(k)
-    print(rootdict["Meta"])
+
+    print(len(rootdict["Units"]["Unit"]))
+    '''  rootdict = {}
+    recursiveFill(articles_root, rootdict)
+    for k in rootdict:
+        print(k)
+    rootdict = {}
+    recursiveFill(structure_features_root, rootdict)
+    for k in rootdict:
+        print(k)
+    rootdict = {}
+    recursiveFill(structure_group_root, rootdict)
+    for k in rootdict:
+        print(k)
+    rootdict = {}
+    recursiveFill(product2gs_root, rootdict)
+    for k in rootdict:
+        print(k)'''
+    print(rootdict["Units"]["Unit"][0])
