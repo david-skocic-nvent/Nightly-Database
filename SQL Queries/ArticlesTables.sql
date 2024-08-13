@@ -17,11 +17,11 @@ CREATE TABLE Articles(
     ArticleIdentifier VARCHAR(20),
     NoCUperOU FLOAT,
     Modified DATETIME,
-    OrderUnit VARCHAR(25),
+    OrderUnit VARCHAR(40),
     Step VARCHAR(10),
     PrimaryStructureGroupMasterStatus VARCHAR(20),
     Gtin VARCHAR(20),
-    ContentUnit VARCHAR(25),
+    ContentUnit VARCHAR(40),
     ProductLine VARCHAR(10),
     RealEAN VARCHAR(20),
     SupplierAltAID VARCHAR(20),
@@ -44,11 +44,11 @@ CREATE TABLE Atricle_Structure_Groups (
     StructureGroup VARCHAR(50),
     Structure VARCHAR(10),
 
-    --CONSTRAINT Fk_ArticleTableID_Structure_Groups
+    CONSTRAINT Fk_ArticleTableID_Structure_Groups
         FOREIGN KEY (ArticleTableID)
         REFERENCES Articles(ArticleTableID)
         ON DELETE CASCADE,
-    --CONSTRAINT Fk_StructureGroup
+    CONSTRAINT Fk_StructureGroup
         FOREIGN KEY (StructureGroup)
         REFERENCES Structure_Groups(Identifier)
         ON DELETE CASCADE

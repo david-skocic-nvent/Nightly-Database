@@ -1,10 +1,10 @@
 import pyodbc
 from general_queries import *
 
-def add_unit_metadata_row(connection, metadatadict):
-    add_metadata_row(connection=connection, tablename="Unit_Metadata", metadatadict=metadatadict)
+def add_article_metadata_row(connection, metadatadict):
+    add_metadata_row(connection=connection, tablename="Article_Metadata", metadatadict=metadatadict)
 
-def add_unit(connection, unit_dict):
+def add_article(connection, article_dict):
     try:
         # Create a cursor from the connection
         cursor = connection.cursor()

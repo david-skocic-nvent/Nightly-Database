@@ -7,10 +7,6 @@ from unit_queries import *
 server = 'localhost'
 database = 'DW_P360'
 
-
-
-
-
 # Create a connection string
 connection_string = (
     f'DRIVER={{ODBC Driver 17 for SQL Server}};'
