@@ -46,8 +46,11 @@ def add_structure_group(sg):
                 asset_type = get_or_null(asset, ["assetType"])
                 asset_data.append((identifier, asset_id, asset_sequence, asset_type))
         
-        
-        
+        if "Attributes" in sg:
+            if isinstance(sg["Attributes"]["Attribute"], list):
+                for attribute in sg["Attributes"]["Attribute"]:
+                    name_in_key_language = get_or_null(attribute, ["nameInKeyLanguage"])
+                     
         #print(data)
 
         #cursor.execute(sql, data)

@@ -29,14 +29,17 @@ CREATE TABLE Structure_Groups(
 CREATE TABLE Structure_Group_Attributes (
     Identifier VARCHAR(50),
     NameInKeyLanguage VARCHAR(60),
-    [Value] VARCHAR(50),
-    [Language] VARCHAR(40),
+    DisplayOrder INT,
+    Unit VARCHAR(40),
     ValueIdentifier VARCHAR(10),
-
 
     FOREIGN KEY (Identifier)
     REFERENCES Structure_Groups(Identifier)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (Unit)
+    REFERENCES Units(Code)
+    ON DELETE NO ACTION
 );
 
 CREATE TABLE Structure_Group_Langs (
