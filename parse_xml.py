@@ -127,6 +127,9 @@ def get_xml_dict(whichFile):
         case 'units':
             tree = et.parse(UNITS_FILEPATH)
             root = tree.getroot()
+        case 'structuregroups':
+            tree = et.parse(STRUCTURE_GROUPS_FILEPATH)
+            root = tree.getroot()
     
     recursiveFill(root, rootdict)
     return rootdict
@@ -137,5 +140,5 @@ if __name__ == '__main__':
     recursiveFill(structure_group_root, rootdict)
     for k in rootdict:
         print(k)
-
-    print(rootdict["StructureGroups"]["StructureGroup"][0])
+    for i in range(20):
+        print(rootdict["StructureGroups"]["StructureGroup"][i])

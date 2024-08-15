@@ -22,7 +22,7 @@ CREATE TABLE Structure_Groups(
     StructureReference VARCHAR(20),
     Modified DATETIME,
     MasterStatus VARCHAR(20),
-    ParentIdentifier VARCHAR(30),
+    ParentIdentifier VARCHAR(50),
     RestrictUnits VARCHAR(10),
 );
 
