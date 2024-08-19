@@ -1,7 +1,7 @@
 import csv
 import pyodbc
 from constants import *
-from parse_xml import get_xml_dict 
+from parse_xml import get_xml_tables
 from general_queries import *
 from unit_queries import *
 from structure_group_queries import *
@@ -49,17 +49,13 @@ connection_string = (
 
 #for unit_dict in get_xml_dict("units")["Units"]["Unit"]:
 #    add_unit_row(unit_dict)
-print("parsing structure groups xml")
-structure_group_dict = get_xml_dict("structuregroups")
-print("pulling structure group data into tables")
-sg_data_list = []
-sg_asset_data_list = []
-for structure_group in structure_group_dict["StructureGroups"]["StructureGroup"]:
-    sg_data, asset_data = add_structure_group(structure_group)
-    sg_data_list.append(sg_data)
-    sg_asset_data_list += asset_data
+structure_group_tables = get_xml_tables("structuregroups")
+print("dumping data to temporary csv file for bulk insertion")
+with open("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\temp.csv", "w", newline='') as f:
+    writer = csv.DictWriter(f, fieldnames=STRUCTURE_GROUPS_COLUMNS)
+    writer.writerows(structure_group_tables["StructureGroup>fields"])
 
-print("inserting data into database...")
+#print("inserting data into database...")
 #bulk_insert("Structure_Groups", STRUCTURE_GROUPS_COLUMNS, sg_data_list)
-bulk_insert("Structure_Group_Assets", STRUCTURE_GROUP_ASSETS_COLUMNS, sg_asset_data_list)
-print("Operation Complete")
+#bulk_insert("Structure_Group_Assets", STRUCTURE_GROUP_ASSETS_COLUMNS, sg_asset_data_list)
+#print("Operation Complete")

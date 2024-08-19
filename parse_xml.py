@@ -6,7 +6,7 @@ from constants import *
 def tagstring(uglytag):
     return uglytag[uglytag.index('}') + 1:]
 
-def recursiveFill (parent, parent_dict):
+def recursive_fill_visual (parent, parent_dict):
     if len(parent.attrib) > 0:
         for attrib in parent.attrib:
             parent_dict[attrib] = parent.attrib[attrib]
@@ -22,15 +22,15 @@ def recursiveFill (parent, parent_dict):
                     parent_dict[tgstr] = []
                     parent_dict[tgstr].append(tempdict)
                 parent_dict[tgstr].append({})
-                recursiveFill(element, parent_dict[tgstr][-1])
+                recursive_fill_visual(element, parent_dict[tgstr][-1])
             else:
                 parent_dict[tgstr] = {}
-                recursiveFill(element, parent_dict[tgstr])
+                recursive_fill_visual(element, parent_dict[tgstr])
 
     if parent.text is not None and not parent.text.isspace():
         parent_dict["text"] = parent.text
 
-def recursiveFill_Always_List (parent, parent_dict):
+def recursive_fill_lists (parent, parent_dict):
     if len(parent.attrib) > 0:
         for attrib in parent.attrib:
             parent_dict[attrib] = parent.attrib[attrib]
@@ -43,7 +43,7 @@ def recursiveFill_Always_List (parent, parent_dict):
             elif tgstr not in parent_dict:
                 parent_dict[tgstr] = []
             parent_dict[tgstr].append({})
-            recursiveFill_Always_List(element, parent_dict[tgstr][-1])
+            recursive_fill_lists(element, parent_dict[tgstr][-1])
 
 def recursivePrint(print_dict, tabcount=0):
     for item in print_dict:
@@ -101,22 +101,11 @@ def createSchema(root):
                 mycolumns["safe"].add(child)
                 #print(createSchema(childdict))
     return mycolumns
-
-def tablify (rootdict):
-    ret_dict = {}
-    for field in rootdict:
-        if isinstance(rootdict[field],list):
-            field_list = []
-            for el in rootdict[field]:
-                field_list.append(tablify(el))
-            ret_dict[field] = field_list
-        else:
-            if "fields" not in ret_dict:
-                ret_dict["fields"] = {}
-            ret_dict["fields"][field] = rootdict[field]
-    return ret_dict
-
                 
+'''
+Function to Create a dictionary where the keys are tables in the sql database and the values are the contents of the table.
+The value is a list of dictionaries, each dictionary is a single row and has column names as keys and column values as vales 
+'''
 def collapse_hierarchy(rootdict):
     ret_dict = {}
     for field in rootdict:
@@ -137,19 +126,40 @@ def collapse_hierarchy(rootdict):
             ret_dict["fields"][field] = rootdict[field]
     return ret_dict
 
+def write_create_table(tablename, fields):
+    retstr = ""
+    retstr += "CREATE TABLE " + tablename + " (\n"
+    for field in fields:
+        if fields[field] > 0:
+            retstr += f"\t[{field}] VARCHAR({fields[field]}),\n"
+        else:
+            retstr += f"\t[{field}] ,\n"
+    retstr += ");"
+    return retstr
 
-def get_xml_dict(whichFile):
+'''
+Function that returns all the contents of a table based on the xml file that is passed in. This is used by the controller to get data
+'''
+def get_xml_tables(whichFile):
     rootdict = {}
     match whichFile.lower():
         case 'units':
+            print("parsing units xml...")
             tree = et.parse(UNITS_FILEPATH)
             root = tree.getroot()
+            recursive_fill_lists(root["Units"][0], rootdict)
+            print("putting xml data into tables...")
+            collapsed = collapse_hierarchy(rootdict["Units"][0])
+            
         case 'structuregroups':
-            tree = et.parse(STRUCTURE_GROUPS_FILEPATH)
+            print("parsing structure groups xml...")
+            tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-structuregroups.xml")#STRUCTURE_GROUPS_FILEPATH)
             root = tree.getroot()
+            recursive_fill_lists(root, rootdict)
+            print("putting xml data into tables...")
+            collapsed = collapse_hierarchy(rootdict["StructureGroups"][0])
     
-    recursiveFill(root, rootdict)
-    return rootdict
+    return collapsed
 
 if __name__ == '__main__':
 
@@ -157,41 +167,47 @@ if __name__ == '__main__':
     rootdict = {}
 
     #recursiveFill(sgroot, rootdict)
-    recursiveFill_Always_List(sgroot, rootdict)
+    recursive_fill_lists(sgroot, rootdict)
     collapsed = collapse_hierarchy(rootdict["StructureGroups"][0])
     
+    queries = []
+
     for table in collapsed:
-        fields = set()
+        fields = {}
         print(table)
         for row in collapsed[table]:
-            fields = fields | row.keys()
-        print(fields)
+            for key in row:
+                if key not in fields:
+                    fields[key] = 0
+                try:
+                    row[key] = int(row[key])
+                except:
+                    pass
+                    
+                    if fields[key] == 0:
+                        if row[key].lower() == "true":
+                            row[key] = True
+                        elif row[key].lower() == "false":
+                            row[key] = False
+                
+                if isinstance(row[key], str):
+                    fields[key] = max(fields[key],len(row[key]))
+                elif isinstance(row[key], int):
+                    pass
+
+        #print(fields)
+        queries.append(write_create_table(table,fields))
+    for query in queries:
+        print(query)
     #recursivePrint(collapsed)
 
     #for i in range(10):
         #recursivePrint(rootdict["StructureGroups"][0]["StructureGroup"][i])
-    exit()
-    fields = set()
-    psfields = set()
-    for structureGroup in rootdict["StructureGroups"]["StructureGroup"]:
-        if "Attributes" in structureGroup:
-            if len(structureGroup["Attributes"]) != 0:
-                if isinstance(structureGroup["Attributes"]["Attribute"], list):
-                    for attribute in structureGroup["Attributes"]["Attribute"]:
-                        for field in attribute:
-                            fields.add(field)
-                            if "Values" in attribute:
-                                if isinstance(attribute["Values"]["Value"], list):
-                                    for preset_value in attribute["Values"]["Value"]:
-                                        for f in preset_value:
-                                            psfields.add(f)
-                else:
-                    for field in structureGroup["Attributes"]["Attribute"]:
-                        fields.add(field)
-    print(fields)
-    print(psfields)
+    
+
 else:
-    structure_group_tree = et.parse(STRUCTURE_GROUPS_FILEPATH)
+    pass
+    '''structure_group_tree = et.parse(STRUCTURE_GROUPS_FILEPATH)
     structure_group_root = structure_group_tree.getroot()
 
     units_tree = et.parse(UNITS_FILEPATH)
@@ -204,4 +220,4 @@ else:
     product2gs_root = product2gs_tree.getroot()
 
     structure_features_tree = et.parse(STRUCTURE_FEATURES_FILEPATH)
-    structure_features_root = structure_features_tree.getroot()
+    structure_features_root = structure_features_tree.getroot()'''

@@ -22,15 +22,6 @@ def add_metadata_row(connection, tablename, metadatadict):
         if cursor:
             cursor.close()
 
-def get_nexted_info(data):
-    ret_list = {}
-
-    for field in data:
-        if field not in ret_list:
-            if not isinstance(data[field], list):
-                ret_list[field] = data[field]
-                else
-
 
 # Function to not throw an error if you refence something that is not in a dictionaryu and instead just returns None
 def get_or_null (dictionary, index_list):

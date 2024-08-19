@@ -58,7 +58,8 @@ def add_structure_group(sg):
                     show_decimals = get_or_null(attribute, ["ShowDecimals"])
                     show_fractions = get_or_null(attribute, ["ShowFractions"])
                     if "PresetValues" in attribute:
-                        
+                        pass
+
 
                      
         #print(data)
