@@ -46,10 +46,20 @@ def add_structure_group(sg):
                 asset_type = get_or_null(asset, ["assetType"])
                 asset_data.append((identifier, asset_id, asset_sequence, asset_type))
         
+        attributes_data = []
         if "Attributes" in sg:
             if isinstance(sg["Attributes"]["Attribute"], list):
                 for attribute in sg["Attributes"]["Attribute"]:
+                    display_order = get_or_null(attribute, ["DisplayOrder"])
                     name_in_key_language = get_or_null(attribute, ["nameInKeyLanguage"])
+                    unit = get_or_null(attribute, ["Unit"])
+                    facet_type = get_or_null(attribute, ["FacetType"])
+                    chart_display = get_or_null(attribute, ["ChartDisplay"])
+                    show_decimals = get_or_null(attribute, ["ShowDecimals"])
+                    show_fractions = get_or_null(attribute, ["ShowFractions"])
+                    if "PresetValues" in attribute:
+                        
+
                      
         #print(data)
 

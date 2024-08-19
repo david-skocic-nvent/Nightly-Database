@@ -31,7 +31,10 @@ CREATE TABLE Structure_Group_Attributes (
     NameInKeyLanguage VARCHAR(60),
     DisplayOrder INT,
     Unit VARCHAR(40),
-    ValueIdentifier VARCHAR(10),
+    FacetType VARCHAR(10),
+    ShowDecimals INT,
+    ShowFractions VARCHAR(10),
+    ChartDisplay VARCHAR(20),
 
     FOREIGN KEY (Identifier)
     REFERENCES Structure_Groups(Identifier)
@@ -39,6 +42,38 @@ CREATE TABLE Structure_Group_Attributes (
 
     FOREIGN KEY (Unit)
     REFERENCES Units(Code)
+    ON DELETE NO ACTION
+);
+
+CREATE TABLE Structure_Group_Attributes_Preset_Values(
+    Identifier VARCHAR(30),
+    StructureGroupIdentifier VARCHAR(50),
+    AttributeNameInKeyLanguage VARCHAR(60),
+    StructureValueProxy VARCHAR(50),
+    DisplayOrder INT,
+
+    FOREIGN KEY (StructureGroupIdentifier)
+    REFERENCES Structure_Group_Attributes(Identifier)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (AttributeNameInKeyLanguage)
+    REFERENCES Structure_Group_Attributes(NameInKeyLanguage)
+    ON DELETE NO ACTION
+);
+
+CREATE TABLE Structure_Group_Attributes_Values(
+    Identifier VARCHAR(10),
+    StructureGroupIdentifier VARCHAR(50),
+    AttributeNameInKeyLanguage VARCHAR(60),
+    [Value] VARCHAR(40),
+    [Language] VARCHAR(10),
+
+    FOREIGN KEY (StructureGroupIdentifier)
+    REFERENCES Structure_Group_Attributes(Identifier)
+    ON DELETE CASCADE,
+
+    FOREIGN KEY (AttributeNameInKeyLanguage)
+    REFERENCES Structure_Group_Attributes(NameInKeyLanguage)
     ON DELETE NO ACTION
 );
 
