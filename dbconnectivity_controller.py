@@ -7,16 +7,11 @@ from unit_queries import *
 from structure_group_queries import *
 
 
-def bulk_insert(table_name, table_headers, data):
+def bulk_insert(table_name):
     try:
         connection = pyodbc.connect(connection_string)
         print(f"Connected to Server to add to table {table_name}")
         connection.autocommit = True
-
-        with open(TEMP_CSV_FILEPATH, "w", newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(table_headers)
-            writer.writerows(data)
 
         cursor = connection.cursor()
 
@@ -34,6 +29,35 @@ def bulk_insert(table_name, table_headers, data):
         if connection:
             connection.close()
 
+def insert(table_name, data):
+    try:
+        connection = pyodbc.connect(connection_string)
+        print(f"Connected to Server to add to table {table_name}")
+        connection.autocommit = True
+
+        cursor = connection.cursor()
+        
+        for i,row in enumerate(data):
+            query = f"INSERT INTO {table_name}("
+            column_vals = []
+            for col in row:
+                query += capitalize(col) + ','
+                column_vals.append(row[col])
+            query = query[:-1] + f") VALUES({'?,'*(len(column_vals)-1) + '?'})"
+            cursor.execute(query, column_vals)
+            if i % 1000 == 0:
+                print(i)
+                
+    except pyodbc.Error as e:
+        print("Error occurred:", e)
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+def capitalize(s):
+    return s[0].upper() + s[1:]
 
 connection_string = (
     f'DRIVER={{ODBC Driver 17 for SQL Server}};'

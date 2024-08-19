@@ -1,7 +1,10 @@
 import xml.etree.ElementTree as et
 from constants import *
 
-
+foreign_keys = {
+    "StructureGroup>fields": "identifier",
+    "Attribute>fields": "nameInKeyLanguage"
+}
 
 def tagstring(uglytag):
     return uglytag[uglytag.index('}') + 1:]
@@ -63,7 +66,6 @@ def recursivePrint(print_dict, tabcount=0):
                 print('  ', end='')
             print(f"{item}: {print_dict[item]}")
 
-def createSchema(root):
     mycolumns = {}
     mycolumns["safe"] = set()
     mycolumns["variable"] = {}
@@ -108,22 +110,34 @@ The value is a list of dictionaries, each dictionary is a single row and has col
 '''
 def collapse_hierarchy(rootdict):
     ret_dict = {}
+    # loop through and fill out all the fields on this level
+    for field in rootdict:
+        if not isinstance(rootdict[field], list):
+            if "fields" not in ret_dict:
+                ret_dict["fields"] = {}
+            ret_dict["fields"][field] = rootdict[field]
+    # now loop and fill out any children
     for field in rootdict:
         if isinstance(rootdict[field], list):
             for child in rootdict[field]:
                 tempdict = collapse_hierarchy(child)
                 for child_field in tempdict:
                     key = field + ">" + child_field
+                    if key in foreign_keys:
+                        for ch in tempdict:
+                            key2 = field + ">" + ch
+                            if key2 not in foreign_keys:
+                                #print(tempdict[ch])
+                                for ind in tempdict[ch]:
+                                    #print(tempdict)
+                                    ind[foreign_keys[key] + "_fk"] = tempdict["fields"][foreign_keys[key]]
+                        #tempdict[key + "_fk"] = ret_dict[key]["fields"][foreign_keys[key]]
                     if key not in ret_dict:
                         ret_dict[key] = []
                     if isinstance(tempdict[child_field], list):
                         ret_dict[key] += tempdict[child_field]
                     else:
                         ret_dict[key].append(tempdict[child_field])
-        else:
-            if "fields" not in ret_dict:
-                ret_dict["fields"] = {}
-            ret_dict["fields"][field] = rootdict[field]
     return ret_dict
 
 def write_create_table(tablename, fields):
@@ -161,6 +175,26 @@ def get_xml_tables(whichFile):
     
     return collapsed
 
+def get_varchar_lengths(table):
+    fields = {}
+    for row in table:
+        for key in row:
+            if key not in fields:
+                fields[key] = 0
+            try:
+                row[key] = int(row[key])
+            except:
+                pass
+                
+                if fields[key] == 0:
+                    if row[key].lower() == "true":
+                        row[key] = True
+                    elif row[key].lower() == "false":
+                        row[key] = False
+            
+            if isinstance(row[key], str):
+                fields[key] = max(fields[key],len(row[key]))
+
 if __name__ == '__main__':
 
     sgroot = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-structuregroups.xml").getroot()
@@ -172,33 +206,16 @@ if __name__ == '__main__':
     
     queries = []
 
-    for table in collapsed:
+    print(collapsed["StructureGroup>Attributes>Attribute>Values>Value>fields"])
+
+    ''' for table in collapsed:
         fields = {}
         print(table)
-        for row in collapsed[table]:
-            for key in row:
-                if key not in fields:
-                    fields[key] = 0
-                try:
-                    row[key] = int(row[key])
-                except:
-                    pass
-                    
-                    if fields[key] == 0:
-                        if row[key].lower() == "true":
-                            row[key] = True
-                        elif row[key].lower() == "false":
-                            row[key] = False
-                
-                if isinstance(row[key], str):
-                    fields[key] = max(fields[key],len(row[key]))
-                elif isinstance(row[key], int):
-                    pass
 
         #print(fields)
         queries.append(write_create_table(table,fields))
     for query in queries:
-        print(query)
+        print(query)'''
     #recursivePrint(collapsed)
 
     #for i in range(10):
