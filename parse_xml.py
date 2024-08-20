@@ -15,6 +15,7 @@ foreign_keys = {
     "Unit>fields": {"xml_field_name": "Code", "column_name": "UnitCode"},
     "Region>fields": {"xml_field_name": "Region", "column_name": "Region"},
     "Article>fields": {"xml_field_name": "Identifier", "column_name": "ArticleIdentifier"},
+    "StructureFeature>fields": {"xml_field_name": "Identifier", "column_name": "StructureFeatureIdentifier"},
 }
 
 def capitalize(s):
@@ -265,12 +266,10 @@ def get_varchar_lengths(table):
 
 if __name__ == '__main__':
 
-    collapsed = get_xml_tables("articles")
-
-    print(len(collapsed["Article>Regions>Region>LimitMarket>Market>fields"]))
+    collapsed = get_xml_tables("structureFeatures")
 
     for i, key in enumerate(collapsed):
         print(f"{i + 1}: {key}")
-        print(get_varchar_lengths(collapsed[key]))
+        print(write_create_table("a",get_varchar_lengths(collapsed[key])))
     #print(get_varchar_lengths(collapsed["Unit>Langs>Lang>fields"]))
     #print(collapsed["StructureGroup>Assets>Asset>fields"])#>Attribute>Values>Value>fields"])

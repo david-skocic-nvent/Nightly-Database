@@ -31,9 +31,26 @@ STRUCTURE_GROUP_ASSETS_COLUMNS = ["StructureGroupIdentifier", "AssetId", "Sequen
 STRUCTURE_GROUP_FACETS_COLUMNS = ["StructureGroupIdentifier", "Facet", "Sequence"]
 
 # Articles columns
+ARTICLES_COLUMNS = ['Identifier', 'Modified', 'SupplierAltAID', 'ProductAssignment', 'Gtin', 'MarketToPublic', 'OrderUnit', 'ContentUnit', 'NoCUperOU', 'QuantityInterval', 'PrimaryStructureGroupMasterStatus', 'RealEAN', 'Step']
+ATRICLE_STRUCTURE_GROUPS_COLUMNS = ['ArticleIdentifier', 'StructureGroup', 'Structure']
+ARTICLE_REGIONS_COLUMNS = ['ArticleIdentifier', 'Region', 'MarketToPublic', 'ReferenceCode', 'StockCode']
+ARTICLE_REGION_LIMIT_MARKETS_COLUMNS = ['ArticleIdentifier', 'Region', 'Market']
+ARTICLE_PRODUCT_LINES_COLUMNS = ['ArticleIdentifier', 'ProductLine', 'ProductLineTag', 'LabelEnglish']
+ARTICLE_APPLICATIONS_COLUMNS = ['ArticleIdentifier', 'Application', 'ApplicationTag', 'LabelEnglish']
+ARTICLE_ASSETS_COLUMNS = ['ArticleIdentifier', 'AssetId', 'AssetType', 'Sequence']
+ARTICLE_LANGS_COLUMNS = ['ArticleIdentifier', 'DescriptionSystem', 'DescriptionShort', 'Language']
+ARTICLE_ATTRIBUTES_COLUMNS = ['ArticleIdentifier', 'NameInKeyLanguage', 'CombinedValue', 'CombinedValueWithUnit', 'SortValue', 'Value']
+ARTICLE_ATTRIBUTE_VALUES_COLUMNS = ['ArticleIdentifier', 'AttributeNameInKeyLanguage', 'Identifier', 'Language', 'Value']
+ARTICLE_SALES_COLUMNS = ['ArticleIdentifier', 'Customer']
+ATRICLE_SALE_PRICE_GROUP_IDS_COLUMNS = ['ArticleIdentifier', 'SalesCustomer', 'Identifier', 'Code']
+ARTICLE_REFERENCES_COLUMNS = ['ArticleIdentifier', 'Object', 'ObjectType', 'Type', 'DisplayOrder']
 
+# Structure Features
+STRUCTURE_FEATURES_COLUMNS = ['Identifier', 'StructureReference', 'Modified', 'NameInKeyLanguage', 'DataType', 'Purpose', 'Unit', 'Annotation']
+STRUCTURE_FEATURE_LANGS_COLUMNS = ['StructureFeatureIdentifier', 'Language', 'Description']
+STRUCTURE_FEATURE_PRESET_VALUES_COLUMNS = ['StructureFeatureIdentifier', 'StructureValueProxy', 'Identifier', 'DisplayOrder', 'AssetId']
 
-
+# Products
 
 
 '''
@@ -89,4 +106,6 @@ table_maps = {
         "columns": STRUCTURE_GROUP_FACETS_COLUMNS,
         "tableNameInCode": "StructureGroup>Facets>Facet>fields"
     },
+    # Articles
+
 }
