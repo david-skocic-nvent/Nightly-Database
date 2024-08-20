@@ -75,6 +75,7 @@ CREATE TABLE Structure_Group_Attribute_Values(
 CREATE TABLE Structure_Group_Langs (
     [StructureGroupIdentifier] VARCHAR(50),
     [Language] VARCHAR(10),
+    [LanguageStatus] VARCHAR(15),
     [Name] VARCHAR(100),
     [Abstract] VARCHAR(400),
     [Content] VARCHAR(max),
@@ -87,7 +88,7 @@ CREATE TABLE Structure_Group_Langs (
 CREATE TABLE Structure_Group_Narratives (
     [StructureGroupIdentifier] VARCHAR(50),
     [Language] VARCHAR(10),
-    [Narrative] VARCHAR(1200),
+    [Narrative] NVARCHAR(1200),
     [Sequence] INT,
 
     FOREIGN KEY ([StructureGroupIdentifier])
@@ -108,7 +109,7 @@ CREATE TABLE Structure_Group_Bullets (
 
 CREATE TABLE Structure_Group_Assets (
     [StructureGroupIdentifier] VARCHAR(50),
-    [AssetID] VARCHAR(50),
+    [AssetId] VARCHAR(50),
     [Sequence] INT,
     [AssetType] VARCHAR(30),
 

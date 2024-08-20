@@ -1,19 +1,22 @@
-CREATE TABLE Unit_Metadata(
-    [Type] VARCHAR(20),
-    [Version] VARCHAR(15),
-    Mode VARCHAR(10),
-    StartTime DATETIME,
-    TimeCity VARCHAR(10),
-    Environment VARCHAR(10)
-);
+USE DW_P360;
+DROP TABLE UnitLangs;
+DROP TABLE Units;
 
 CREATE TABLE Units (
-    Code VARCHAR(40) PRIMARY KEY,
-	BaseUnitFactor FLOAT,
-	MeasurementSystem VARCHAR(10),
-	BaseUnit VARCHAR(40),
-    Modified DATETIME,
-	[Name] VARCHAR(50),
-	[Language] VARCHAR(10),
-	Symbol NVARCHAR(20)
+    [Code] VARCHAR(40) PRIMARY KEY,
+	[BaseUnitFactor] FLOAT,
+	[MeasurementSystem] VARCHAR(10),
+	[BaseUnit] VARCHAR(40),
+    [Modified] DATETIME,
+);
+
+CREATE TABLE Unit_Langs (
+    [UnitCode] VARCHAR(40),
+    [Language] VARCHAR(10),
+	[Symbol] NVARCHAR(20),
+    [Name] VARCHAR(50),
+
+    FOREIGN KEY ([UnitCode])
+    REFERENCES Units([Code])
+    ON DELETE CASCADE
 );

@@ -1,4 +1,5 @@
 import csv
+import time
 import pyodbc
 from constants import *
 from parse_xml import get_xml_tables
@@ -75,9 +76,14 @@ connection_string = (
 #    add_unit_row(unit_dict)
 structure_group_tables = get_xml_tables("structuregroups")
 print("dumping data to temporary csv file for bulk insertion")
-with open("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\temp.csv", "w", newline='') as f:
-    writer = csv.DictWriter(f, fieldnames=STRUCTURE_GROUPS_COLUMNS)
-    writer.writerows(structure_group_tables["StructureGroup>fields"])
+for map in table_maps:
+    with open("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\temp.csv", "w", newline='',encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=table_maps[map]["columns"])
+        writer.writerows(structure_group_tables[table_maps[map]["tableNameInCode"]])
+    time.sleep(2)
+
+
+
 
 #print("inserting data into database...")
 #bulk_insert("Structure_Groups", STRUCTURE_GROUPS_COLUMNS, sg_data_list)

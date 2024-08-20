@@ -1,136 +1,165 @@
-CREATE TABLE Article_Metadata(
-    [Type] VARCHAR(20),
-    [Version] VARCHAR(15),
-    Mode VARCHAR(10),
-    StartTime DATETIME,
-    TimeCity VARCHAR(10),
-    Environment VARCHAR(10)
-);
-
 CREATE TABLE Articles(
-    ArticleTableID INT IDENTITY(1,1) PRIMARY KEY,
-    Customer VARCHAR(15),
-    PriceGroupIDCode VARCHAR(10),
-    PriceGroupIDIdentifier VARCHAR(10),
-    QuantityInterval FLOAT,
-    ProductLineTag VARCHAR(10),
-    ArticleIdentifier VARCHAR(20),
-    NoCUperOU FLOAT,
-    Modified DATETIME,
-    OrderUnit VARCHAR(40),
-    Step VARCHAR(10),
-    PrimaryStructureGroupMasterStatus VARCHAR(20),
-    Gtin VARCHAR(20),
-    ContentUnit VARCHAR(40),
-    ProductLine VARCHAR(10),
-    RealEAN VARCHAR(20),
-    SupplierAltAID VARCHAR(20),
-    ProductAssignment VARCHAR(20),
-    ProductLineLabelEnglish VARCHAR(20),
+    [Identifier] VARCHAR(30) PRIMARY KEY,
+    [Modified] DATETIME,
+    [SupplierAltAID] VARCHAR(30),
+    [ProductAssignment] VARCHAR(30),
+    [Gtin] VARCHAR(20),
+    [MarketToPublic] VARCHAR(20)
+    [OrderUnit] VARCHAR(40),
+    [ContentUnit] VARCHAR(40),
+    [NoCUperOU] FLOAT,
+    [QuantityInterval] FLOAT,
+    [PrimaryStructureGroupMasterStatus] VARCHAR(20),
+    [RealEAN] VARCHAR(20),
+    [Step] VARCHAR(10),
 
-    CONSTRAINT Fk_OrderUnit
-        FOREIGN KEY (OrderUnit)
-        REFERENCES Units(Code)
-        ON DELETE NO ACTION,
+    FOREIGN KEY ([OrderUnit])
+    REFERENCES Units([Code])
+    ON DELETE NO ACTION,
 
-    CONSTRAINT Fk_ContentUnit
-        FOREIGN KEY (ContentUnit)
-        REFERENCES Units(Code)
-        ON DELETE NO ACTION
+    FOREIGN KEY ([ContentUnit])
+    REFERENCES Units([Code])
+    ON DELETE NO ACTION
 );
 
 CREATE TABLE Atricle_Structure_Groups (
-    ArticleTableID INT,
-    StructureGroup VARCHAR(50),
-    Structure VARCHAR(10),
+    [ArticleIdentifier] VARCHAR(30),
+    [StructureGroup] VARCHAR(50),
+    [Structure] VARCHAR(30),
 
-    CONSTRAINT Fk_ArticleTableID_Structure_Groups
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE,
-    CONSTRAINT Fk_StructureGroup
-        FOREIGN KEY (StructureGroup)
-        REFERENCES Structure_Groups(Identifier)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE,
+    
+    FOREIGN KEY ([StructureGroup])
+    REFERENCES Structure_Groups([Identifier])
+    ON DELETE CASCADE
 );
 
 CREATE TABLE Article_Regions (
-    ArticleTableID INT,
-    Region VARCHAR(15),
-    MarketToPublic VARCHAR(20),
-    ReferenceCode INT,
-    StockCode VARCHAR(10),
+    [ArticleIdentifier] VARCHAR(30),
+    [Region] VARCHAR(15),
+    [MarketToPublic] VARCHAR(20),
+    [ReferenceCode] VARCHAR(20),
+    [StockCode] VARCHAR(10),
 
-    CONSTRAINT Fk_ArticleTableID_Regions
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
+);
+
+CREATE TABLE Article_Region_Limit_Markets (
+    [ArticleIdentifier] VARCHAR(30),
+    [Region] VARCHAR(15),
+    [Market] VARCHAR(10),
+
+    FOREIGN KEY ([ArticleIdentifier],[Region])
+    REFERENCES Article_Regions([ArticleIdentifier],[Region])
+    ON DELETE CASCADE
+);
+
+CREATE TABLE Article_Product_Lines (
+    [ArticleIdentifier] VARCHAR(30),
+    [ProductLine] VARCHAR(20),
+    [ProductLineTag] VARCHAR(20),
+    [LabelEnglish] VARCHAR(20),
+
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
 );
 
 CREATE TABLE Article_Applications(
-    ArticleTableID INT,
+    [ArticleIdentifier] VARCHAR(30),
     [Application] VARCHAR(40),
-    ApplicationTag VARCHAR(10),
-    LabelEnglish VARCHAR(50),
+    [ApplicationTag] VARCHAR(10),
+    [LabelEnglish] VARCHAR(50),
 
-    CONSTRAINT Fk_ArticleTableID_Applications
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
 );
 
+CREATE TABLE Article_Assets(
+    [ArticleIdentifier] VARCHAR(30),
+    [AssetId] VARCHAR(50),
+    [AssetType] VARCHAR(20),
+    [Sequence] INT,
+
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
+);
+
+
 CREATE TABLE Article_Langs(
-    ArticleTableID INT,
-    DescriptionSystem VARCHAR(70),
-    DescriptionShort VARCHAR(150),
+    [ArticleIdentifier] VARCHAR(30),
+    [DescriptionSystem] VARCHAR(100),
+    [DescriptionShort] VARCHAR(250),
     [Language] VARCHAR(10),
 
-    CONSTRAINT Fk_ArticleTableID_Langs
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
 );
 
 CREATE TABLE Article_Attributes(
-    ArticleTableID INT,
-    NameInKeyLanguage VARCHAR(60),
-    SortValue FLOAT,
+    [ArticleIdentifier] VARCHAR(30),
+    [NameInKeyLanguage] VARCHAR(80),
+    [CombinedValue] VARCHAR(200),
+    [CombinedValueWithUnit] VARCHAR(200),
+    [SortValue] VARCHAR(150),
+
     SortValueLanguage VARCHAR(10),
-    CombinedValue VARCHAR(20),
-    CombinedValueLanguage VARCHAR(10),
-    CombinedValueWithUnit VARCHAR(20),
-    CombinedValueWithUnitLanguage VARCHAR(10),
     [Value] VARCHAR(20),
     ValueLanguage VARCHAR(10),
     ValueIdentifier VARCHAR(10),
 
-    CONSTRAINT Fk_ArticleTableID_Attributes
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
 );
 
-CREATE TABLE Article_Assets(
-    ArticleTableID INT,
-    AssetID VARCHAR(50),
-    AssetType VARCHAR(20),
-    [Sequence] INT,
+CREATE TABLE Article_Attribute_Values(
+    [ArticleIdentifier] VARCHAR(30),
+    [AttributeNameInKeyLanguage] VARCHAR(80),
+    [Identifier] INT,
+    [Language] VARCHAR(10),
+    [Value] VARCHAR(100),
 
-    CONSTRAINT Fk_ArticleTableID_Assets
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier], [AttributeNameInKeyLanguage])
+    REFERENCES Article_Attributes([ArticleIdentifier], [AttributeNameInKeyLanguage])
+    ON DELETE CASCADE
+);
+
+CREATE TABLE Article_Sales(
+    [ArticleIdentifier] VARCHAR(30),
+    [Customer] VARCHAR(20),
+
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
+);
+
+CREATE TABLE Atricle_Sale_Price_Group_Ids(
+    [ArticleIdentifier] VARCHAR(30),
+    [SalesCustomer] VARCHAR(20),
+    [Identifier] VARCHAR(20),
+    [Code] VARCHAR(10),
+
+    FOREIGN KEY ([ArticleIdentifier], [SalesCustomer])
+    REFERENCES Article_Sales([ArticleIdentifier], [Customer])
+    ON DELETE CASCADE
 );
 
 CREATE TABLE Article_References(
-    ArticleTableID INT,
-    ObjectType VARCHAR(20),
+    [ArticleIdentifier] VARCHAR(30),
+    [Object] VARCHAR(30),
+    [ObjectType] VARCHAR(20),
     [Type] VARCHAR(20),
-    [Object] VARCHAR(20),
-    DisplayOrder INT,
+    [DisplayOrder] INT,
 
-    CONSTRAINT Fk_ArticleTableID_References
-        FOREIGN KEY (ArticleTableID)
-        REFERENCES Articles(ArticleTableID)
-        ON DELETE CASCADE
+    FOREIGN KEY ([ArticleIdentifier])
+    REFERENCES Articles([Identifier])
+    ON DELETE CASCADE
 );
