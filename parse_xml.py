@@ -51,24 +51,6 @@ def recursive_fill_lists (parent, parent_dict):
     global count
     if len(parent.attrib) > 0:
         for attrib in parent.attrib:
-            parent_dict[capitalize(attrib)] = [parent.attrib[attrib]]
-    if len(parent) > 0:
-        for element in parent:
-            tgstr = tagstring(element.tag)
-            if element.text is not None and not element.text.isspace():
-                if tgstr not in parent_dict:
-                    parent_dict[tgstr] = []
-                parent_dict[tgstr].append(element.text)
-                continue
-            elif tgstr not in parent_dict:
-                parent_dict[tgstr] = []
-            parent_dict[tgstr].append({})
-            recursive_fill_lists(element, parent_dict[tgstr][-1])
-
-def recursive_fill_lists2 (parent, parent_dict):
-    global count
-    if len(parent.attrib) > 0:
-        for attrib in parent.attrib:
             parent_dict[capitalize(attrib)] = parent.attrib[attrib]
     if parent.text is not None and not parent.text.isspace():
         parent_dict["txt"] = parent.text
@@ -78,7 +60,7 @@ def recursive_fill_lists2 (parent, parent_dict):
             if tgstr not in parent_dict:
                 parent_dict[tgstr] = []
             parent_dict[tgstr].append({})
-            recursive_fill_lists2 (element, parent_dict[tgstr][-1])
+            recursive_fill_lists (element, parent_dict[tgstr][-1])
 
 '''
 Due to the way recursive fill lists works to capture all the data, it must make a list of dicts that hold the data for just the text of an xml element
@@ -86,7 +68,8 @@ We must take lists that are of length 1 and collapse them down so they are just 
 the following two functions work together, because for a given tag, if ANY of the lists are longer than 1 then they all shouldnt be collapsed
 These comments probably dont make any sense but this seems to work.
 '''
-
+# I am nervous that this function specifically will mark a key as something that should not be collapsable in one spot,
+# but if there is the same (name) key in a different level of the hierarchy that should be collapsed, it wont
 def find_tags_to_collapse(rootdict, tags_to_collapse):
     for key in rootdict:
         if isinstance(rootdict[key], list):
@@ -110,7 +93,8 @@ def collapse_txts(rootdict, tags_to_collapse):
                 else:
                     collapse_txts(child, tags_to_collapse)
 
-def fill_and_clean_lists(rootdict):
+def fill_and_clean_lists(root, rootdict):
+    recursive_fill_lists(root, rootdict)
     tags_to_collapse = {}
     find_tags_to_collapse(rootdict, tags_to_collapse)
     collapse_txts(rootdict, tags_to_collapse)
@@ -226,7 +210,7 @@ def get_xml_tables(whichFile):
             print("parsing units xml...")
             tree = et.parse(UNITS_FILEPATH)
             root = tree.getroot()
-            recursive_fill_lists(root["Units"][0], rootdict)
+            fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
             collapsed = collapse_hierarchy(rootdict["Units"][0])
             
@@ -234,7 +218,7 @@ def get_xml_tables(whichFile):
             print("parsing structure groups xml...")
             tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-structuregroups.xml")#STRUCTURE_GROUPS_FILEPATH)
             root = tree.getroot()
-            recursive_fill_lists(root, rootdict)
+            fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
             collapsed = collapse_hierarchy(rootdict["StructureGroups"][0])
 
@@ -242,9 +226,7 @@ def get_xml_tables(whichFile):
             print("parsing articles xml...")
             tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-articles.xml")#STRUCTURE_GROUPS_FILEPATH)
             root = tree.getroot()
-            recursive_fill_lists2(root, rootdict)
-            find_tags_to_collapse(rootdict)
-            recursive_collapse_txts(rootdict)
+            fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
             collapsed = collapse_hierarchy(rootdict["Articles"][0])
         
@@ -252,7 +234,7 @@ def get_xml_tables(whichFile):
             print("parsing products xml...")
             tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-product2gs.xml")#STRUCTURE_GROUPS_FILEPATH)
             root = tree.getroot()
-            recursive_fill_lists(root, rootdict)
+            fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
             collapsed = collapse_hierarchy(rootdict["Product2Gs"][0])
 
@@ -260,7 +242,7 @@ def get_xml_tables(whichFile):
             print("parsing structure features xml...")
             tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-structurefeatures.xml")#STRUCTURE_GROUPS_FILEPATH)
             root = tree.getroot()
-            recursive_fill_lists(root, rootdict)
+            fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
             collapsed = collapse_hierarchy(rootdict["StructureFeatures"][0])
 
