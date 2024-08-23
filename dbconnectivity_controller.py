@@ -3,9 +3,7 @@ import time
 import pyodbc
 from constants import *
 from parse_xml import get_xml_tables
-from general_queries import *
-from unit_queries import *
-from structure_group_queries import *
+
 
 
 def bulk_insert(table_name):
@@ -59,6 +57,15 @@ def insert(table_name, data):
 
 def capitalize(s):
     return s[0].upper() + s[1:]
+
+# Function to not throw an error if you refence something that is not in a dictionaryu and instead just returns None
+def get_or_null (dictionary, index_list):
+    for index in index_list:
+        if index not in dictionary:
+            return None
+        else:
+            dictionary = dictionary[index]
+    return dictionary
 
 connection_string = (
     f'DRIVER={{ODBC Driver 17 for SQL Server}};'
