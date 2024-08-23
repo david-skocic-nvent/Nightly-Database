@@ -74,13 +74,18 @@ connection_string = (
 
 #for unit_dict in get_xml_dict("units")["Units"]["Unit"]:
 #    add_unit_row(unit_dict)
-structure_group_tables = get_xml_tables("structuregroups")
-print("dumping data to temporary csv file for bulk insertion")
+tables = get_xml_tables("structuregroups")
+tables.update(get_xml_tables("articles"))
+tables.update(get_xml_tables("products"))
+tables.update(get_xml_tables("structurefeatures"))
+tables.update(get_xml_tables("units"))
+print(tables.keys())
+'''print("dumping data to temporary csv file for bulk insertion")
 for map in table_maps:
     with open("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\temp.csv", "w", newline='',encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=table_maps[map]["columns"])
         writer.writerows(structure_group_tables[table_maps[map]["tableNameInCode"]])
-    time.sleep(2)
+    time.sleep(2)'''
 
 
 

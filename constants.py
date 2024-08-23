@@ -1,9 +1,11 @@
-ARTICLES_FILEPATH = "F:\\P360Data\\Archive\\catalogdata-articles.xml"
-PRODUCT2GS_FILEPATH = "F:\\P360Data\\Archive\\catalogdata-product2gs.xml"
-STRUCTURE_FEATURES_FILEPATH = "F:\\P360Data\\Archive\\catalogdata-structurefeatures.xml"
-STRUCTURE_GROUPS_FILEPATH = "F:\\P360Data\\Archive\\catalogdata-structuregroups.xml"
-UNITS_FILEPATH = "F:\\P360Data\\Archive\\catalogdata-units.xml"
-TEMP_CSV_FILEPATH = "F:\\P360Data\\Archive\\temp.csv"
+#DATA_DUMP_FOLDER = "F:\\P360Data\\Archive"
+DATA_DUMP_FOLDER = "C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data"
+ARTICLES_FILEPATH = DATA_DUMP_FOLDER+"\\catalogdata-articles.xml"
+PRODUCT2GS_FILEPATH = DATA_DUMP_FOLDER+"\\catalogdata-product2gs.xml"
+STRUCTURE_FEATURES_FILEPATH = DATA_DUMP_FOLDER + "\\catalogdata-structurefeatures.xml"
+STRUCTURE_GROUPS_FILEPATH = DATA_DUMP_FOLDER + "\\catalogdata-structuregroups.xml"
+UNITS_FILEPATH = DATA_DUMP_FOLDER + "\\catalogdata-units.xml"
+TEMP_CSV_FILEPATH = DATA_DUMP_FOLDER + "\\temp.csv"
 
 
 
@@ -32,7 +34,7 @@ STRUCTURE_GROUP_FACETS_COLUMNS = ["StructureGroupIdentifier", "Facet", "Sequence
 
 # Articles columns
 ARTICLES_COLUMNS = ['Identifier', 'Modified', 'SupplierAltAID', 'ProductAssignment', 'Gtin', 'MarketToPublic', 'OrderUnit', 'ContentUnit', 'NoCUperOU', 'QuantityInterval', 'PrimaryStructureGroupMasterStatus', 'RealEAN', 'Step']
-ATRICLE_STRUCTURE_GROUPS_COLUMNS = ['ArticleIdentifier', 'StructureGroup', 'Structure']
+ARTICLE_STRUCTURE_GROUPS_COLUMNS = ['ArticleIdentifier', 'StructureGroup', 'Structure']
 ARTICLE_REGIONS_COLUMNS = ['ArticleIdentifier', 'Region', 'MarketToPublic', 'ReferenceCode', 'StockCode']
 ARTICLE_REGION_LIMIT_MARKETS_COLUMNS = ['ArticleIdentifier', 'Region', 'Market']
 ARTICLE_PRODUCT_LINES_COLUMNS = ['ArticleIdentifier', 'ProductLine', 'ProductLineTag', 'LabelEnglish']
@@ -42,7 +44,7 @@ ARTICLE_LANGS_COLUMNS = ['ArticleIdentifier', 'DescriptionSystem', 'DescriptionS
 ARTICLE_ATTRIBUTES_COLUMNS = ['ArticleIdentifier', 'NameInKeyLanguage', 'CombinedValue', 'CombinedValueWithUnit', 'SortValue', 'Value']
 ARTICLE_ATTRIBUTE_VALUES_COLUMNS = ['ArticleIdentifier', 'AttributeNameInKeyLanguage', 'Identifier', 'Language', 'Value']
 ARTICLE_SALES_COLUMNS = ['ArticleIdentifier', 'Customer']
-ATRICLE_SALE_PRICE_GROUP_IDS_COLUMNS = ['ArticleIdentifier', 'SalesCustomer', 'Identifier', 'Code']
+ARTICLE_SALE_PRICE_GROUP_IDS_COLUMNS = ['ArticleIdentifier', 'SalesCustomer', 'Identifier', 'Code']
 ARTICLE_REFERENCES_COLUMNS = ['ArticleIdentifier', 'Object', 'ObjectType', 'Type', 'DisplayOrder']
 
 # Structure Features
@@ -51,7 +53,18 @@ STRUCTURE_FEATURE_LANGS_COLUMNS = ['StructureFeatureIdentifier', 'Language', 'De
 STRUCTURE_FEATURE_PRESET_VALUES_COLUMNS = ['StructureFeatureIdentifier', 'StructureValueProxy', 'Identifier', 'DisplayOrder', 'AssetId']
 
 # Products
-
+PRODUCT2GS_COLUMNS = ['Identifier', 'Modified', 'MarketToPublic', 'PrimaryStructureGroupMasterStatus', 'DisplayOrder']
+PRODUCT2G_STRUCTURE_GROUPS_COLUMNS = ['ProductIdentifier', 'Structure', 'StructureGroup']
+PRODUCT2G_REGIONS_COLUMNS = ['ProductIdentifier', 'Region', 'MarketToPublic']
+PRODUCT2G_PRODUCT_LINES_COLUMNS = ['ProductIdentifier', 'ProductLine', 'ProductLineTag', 'LabelEnglish']
+PRODUCT2G_APPLICATIONS_COLUMNS = ['ProductIdentifier', 'Application', 'ApplicationTag', 'LabelEnglish']
+PRODUCT2G_ASSETS_COLUMNS = ['ProductIdentifier', 'AssetType', 'Sequence', 'AssetId']
+PRODUCT2G_LANGS_COLUMNS = ['ProductIdentifier', 'Language', 'DescriptionShort', 'Abstract', 'Keyword']
+PRODUCT2G_NARRATIVES_COLUMNS = ['ProductIdentifier', 'Language', 'Sequence', 'Narrative']
+PRODUCT2G_BULLETS_COLUMNS = ['ProductIdentifier', 'Language', 'Sequence', 'Bullet']
+PRODUCT2G_FOOTNOTES_COLUMNS = ['ProductIdentifier', 'Language', 'Sequence', 'Footnote']
+PRODUCT2G_REFERENCES_COLUMNS = ['ProductIdentifier', 'Object', 'ObjectType', 'Type', 'DisplayOrder']
+PRODUCT2G_REGION_LIMIT_MARKETS_COLUMNS = ['ProductIdentifier', 'Region', 'Market']
 
 '''
 Mappings for each table
@@ -69,6 +82,7 @@ table_maps = {
         "columns": UNIT_LANGS_COLUMNS,
         "tableNameInCode": "Unit>Langs>Lang>fields"
     },
+
     # Structure Groups
     "Structure_Groups": {
         "columns": STRUCTURE_GROUPS_COLUMNS,
@@ -106,6 +120,125 @@ table_maps = {
         "columns": STRUCTURE_GROUP_FACETS_COLUMNS,
         "tableNameInCode": "StructureGroup>Facets>Facet>fields"
     },
+
     # Articles
+    "Articles": {
+        "columns": ARTICLES_COLUMNS,
+        "tableNameInCode": "Article>fields"
+    },
+    "Article_Structure_Groups": {
+        "columns": ARTICLE_STRUCTURE_GROUPS_COLUMNS,
+        "tableNameInCode": "Article>StructureGroup>fields"
+    },
+    "Article_Regions": {
+        "columns": ARTICLE_REGIONS_COLUMNS,
+        "tableNameInCode": "Article>Regions>Region>fields"
+    },
+    "Article_Product_Lines": {
+        "columns": ARTICLE_PRODUCT_LINES_COLUMNS,
+        "tableNameInCode": "Article>ProductLines>ProductLine>fields"
+    },
+    "Article_Applications": {
+        "columns": ARTICLE_APPLICATIONS_COLUMNS,
+        "tableNameInCode": "Article>Applications>Application>fields"
+    },
+    "Article_Assets": {
+        "columns": ARTICLE_ASSETS_COLUMNS,
+        "tableNameInCode": "Article>Assets>Asset>fields"
+    },
+    "Article_Langs": {
+        "columns": ARTICLE_LANGS_COLUMNS,
+        "tableNameInCode": "Article>Langs>Lang>fields"
+    },
+    "Article_Attributes": {
+        "columns": ARTICLE_ATTRIBUTES_COLUMNS,
+        "tableNameInCode": "Article>Attributes>Attribute>fields"
+    },
+    "Article_Attribute_Values": {
+        "columns": ARTICLE_ATTRIBUTE_VALUES_COLUMNS,
+        "tableNameInCode": "Article>Attributes>Attribute>Values>Value>fields"
+    },
+    "Article_Sales": {
+        "columns": ARTICLE_SALES_COLUMNS,
+        "tableNameInCode": "Article>Sales>Sales>fields"
+    },
+    "Article_Sale_Price_Groups": {
+        "columns": ARTICLE_SALE_PRICE_GROUP_IDS_COLUMNS,
+        "tableNameInCode": "Article>Sales>Sales>PriceGroupId>fields"
+    },
+    "Article_References": {
+        "columns": ARTICLE_REFERENCES_COLUMNS,
+        "tableNameInCode": "Article>References>Reference>fields"
+    },
+    "Article_Region_Limit_Market": {
+        "columns": ARTICLE_REGION_LIMIT_MARKETS_COLUMNS,
+        "tableNameInCode": "Article>Regions>Region>LimitMarket>Market>fields"
+    },
+
+    #Structure Features
+    "Structure_Features": {
+        "columns": STRUCTURE_FEATURES_COLUMNS,
+        "tableNameInCode": "StructureFeature>fields"
+    },
+    "Structure_Feature_Langs": {
+        "columns": STRUCTURE_FEATURE_LANGS_COLUMNS,
+        "tableNameInCode": "StructureFeature>Langs>Lang>fields"
+    },
+    "Structure_Feature_Preset_Values": {
+        "columns": STRUCTURE_FEATURES_COLUMNS,
+        "tableNameInCode": "StructureFeature>PresetValues>PresetValue>fields"
+    },
+
+    #Products
+    "Product2Gs" : {
+        "columns": PRODUCT2GS_COLUMNS,
+        "tableNameInCode": "Product2G>fields"
+    },
+    "Product2G_Structure_Groups" : {
+        "columns": PRODUCT2G_STRUCTURE_GROUPS_COLUMNS,
+        "tableNameInCode": "Product2G>StructureGroup>fields"
+    },
+    "Product2G_Regions" : {
+        "columns": PRODUCT2G_REGIONS_COLUMNS,
+        "tableNameInCode": "Product2G>Regions>Region>fields"
+    },
+    "Product2G_Product_Lines" : {
+        "columns": PRODUCT2G_PRODUCT_LINES_COLUMNS,
+        "tableNameInCode": "Product2G>ProductLines>ProductLine>fields"
+    },
+    "Product2G_Applications" : {
+        "columns": PRODUCT2G_APPLICATIONS_COLUMNS,
+        "tableNameInCode": "Product2G>Applications>Application>fields"
+    },
+    "Product2G_Assets" : {
+        "columns": PRODUCT2G_ASSETS_COLUMNS,
+        "tableNameInCode": "Product2G>Assets>Asset>fields"
+    },
+    "Product2G_Langs" : {
+        "columns": PRODUCT2G_LANGS_COLUMNS,
+        "tableNameInCode": "Product2G>Langs>Lang>fields"
+    },
+    "Product2G_Narratives" : {
+        "columns": PRODUCT2G_NARRATIVES_COLUMNS,
+        "tableNameInCode": "Product2G>Narratives>Narrative>fields"
+    },
+    "Product2G_Bullets" : {
+        "columns": PRODUCT2G_BULLETS_COLUMNS,
+        "tableNameInCode": "Product2G>Bullets>Bullet>fields"
+    },
+    "Product2G_Footnotes" : {
+        "columns": PRODUCT2G_FOOTNOTES_COLUMNS,
+        "tableNameInCode": "Product2G>Footnotes>Footnote>fields"
+    },
+    "Product2G_References" : {
+        "columns": PRODUCT2G_REFERENCES_COLUMNS,
+        "tableNameInCode": "Product2G>References>Reference>fields"
+    },
+    "Product2G_Region_Limit_Markets" : {
+        "columns": PRODUCT2G_REGION_LIMIT_MARKETS_COLUMNS,
+        "tableNameInCode": "Product2G>Regions>Region>LimitMarket>fields"
+    },
+
+    # StructureFeatures
 
 }

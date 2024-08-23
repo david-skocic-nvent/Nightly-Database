@@ -22,7 +22,7 @@ CREATE TABLE Structure_Features (
 CREATE TABLE Structure_Feature_Langs (
         [StructureFeatureIdentifier] VARCHAR(30),
         [Language] VARCHAR(10),
-        [Description] VARCHAR(120),
+        [Description] VARCHAR(150),
 
         FOREIGN KEY (StructureFeatureIdentifier)
         REFERENCES Structure_Features([Identifier])
@@ -31,7 +31,7 @@ CREATE TABLE Structure_Feature_Langs (
 
 CREATE TABLE Structure_Feature_Preset_Values (
         [StructureFeatureIdentifier] VARCHAR(30),
-        [StructureValueProxy] VARCHAR(150),
+        [StructureValueProxy] VARCHAR(200),
         [Identifier] VARCHAR(30),
         [DisplayOrder] INT,
         [AssetId] VARCHAR(60),

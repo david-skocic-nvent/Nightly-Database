@@ -22,7 +22,7 @@ CREATE TABLE Articles(
     ON DELETE NO ACTION
 );
 
-CREATE TABLE Atricle_Structure_Groups (
+CREATE TABLE Article_Structure_Groups (
     [ArticleIdentifier] VARCHAR(30),
     [StructureGroup] VARCHAR(50),
     [Structure] VARCHAR(30),
@@ -38,7 +38,7 @@ CREATE TABLE Atricle_Structure_Groups (
 
 CREATE TABLE Article_Regions (
     [ArticleIdentifier] VARCHAR(30),
-    [Region] VARCHAR(15),
+    [Region] VARCHAR(20),
     [MarketToPublic] VARCHAR(20),
     [ReferenceCode] VARCHAR(20),
     [StockCode] VARCHAR(10),
@@ -50,7 +50,7 @@ CREATE TABLE Article_Regions (
 
 CREATE TABLE Article_Region_Limit_Markets (
     [ArticleIdentifier] VARCHAR(30),
-    [Region] VARCHAR(15),
+    [Region] VARCHAR(20),
     [Market] VARCHAR(10),
 
     FOREIGN KEY ([ArticleIdentifier],[Region])
@@ -141,7 +141,7 @@ CREATE TABLE Article_Sales(
     ON DELETE CASCADE
 );
 
-CREATE TABLE Atricle_Sale_Price_Group_Ids(
+CREATE TABLE Article_Sale_Price_Group_Ids(
     [ArticleIdentifier] VARCHAR(30),
     [SalesCustomer] VARCHAR(20),
     [Identifier] VARCHAR(20),

@@ -3,7 +3,7 @@ This file is meant to be a simple script where you just input a sql file, it rea
 I have based this on the format I used in the constants.py file
 """
 
-filename = "SQL Queries\\ArticlesTables.sql"
+filename = "SQL Queries\\StructureFeaturesTables.sql"
 
 with open(filename, newline='') as f:
     in_create_table = False

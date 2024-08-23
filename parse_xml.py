@@ -16,6 +16,8 @@ foreign_keys = {
     "Region>fields": {"xml_field_name": "Region", "column_name": "Region"},
     "Article>fields": {"xml_field_name": "Identifier", "column_name": "ArticleIdentifier"},
     "StructureFeature>fields": {"xml_field_name": "Identifier", "column_name": "StructureFeatureIdentifier"},
+    "Product2G>fields": {"xml_field_name": "Identifier", "column_name": "ProductIdentifier"},
+    "StructureFeature>fields": {"xml_field_name": "Identifier", "column_name": "StructureFeatureIdentifier"},
 }
 
 def capitalize(s):
@@ -217,7 +219,7 @@ def get_xml_tables(whichFile):
             
         case 'structuregroups':
             print("parsing structure groups xml...")
-            tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-structuregroups.xml")#STRUCTURE_GROUPS_FILEPATH)
+            tree = et.parse(STRUCTURE_GROUPS_FILEPATH)
             root = tree.getroot()
             fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
@@ -225,7 +227,7 @@ def get_xml_tables(whichFile):
 
         case "articles":
             print("parsing articles xml...")
-            tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-articles.xml")#STRUCTURE_GROUPS_FILEPATH)
+            tree = et.parse(ARTICLES_FILEPATH)
             root = tree.getroot()
             fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
@@ -233,7 +235,7 @@ def get_xml_tables(whichFile):
         
         case "products" | "product2gs":
             print("parsing products xml...")
-            tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-product2gs.xml")#STRUCTURE_GROUPS_FILEPATH)
+            tree = et.parse(PRODUCT2GS_FILEPATH)
             root = tree.getroot()
             fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
@@ -241,7 +243,7 @@ def get_xml_tables(whichFile):
 
         case "structurefeatures":
             print("parsing structure features xml...")
-            tree = et.parse("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\catalogdata-structurefeatures.xml")#STRUCTURE_GROUPS_FILEPATH)
+            tree = et.parse(STRUCTURE_FEATURES_FILEPATH)
             root = tree.getroot()
             fill_and_clean_lists(root, rootdict)
             print("putting xml data into tables...")
@@ -266,10 +268,10 @@ def get_varchar_lengths(table):
 
 if __name__ == '__main__':
 
-    collapsed = get_xml_tables("structureFeatures")
+    collapsed = get_xml_tables("structurefeatures")
 
     for i, key in enumerate(collapsed):
         print(f"{i + 1}: {key}")
-        print(write_create_table("a",get_varchar_lengths(collapsed[key])))
+        #print(write_create_table("a",get_varchar_lengths(collapsed[key])))
     #print(get_varchar_lengths(collapsed["Unit>Langs>Lang>fields"]))
     #print(collapsed["StructureGroup>Assets>Asset>fields"])#>Attribute>Values>Value>fields"])
