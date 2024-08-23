@@ -1,5 +1,5 @@
 USE DW_P360;
-DROP TABLE UnitLangs;
+DROP TABLE Unit_Langs;
 DROP TABLE Units;
 
 CREATE TABLE Units (

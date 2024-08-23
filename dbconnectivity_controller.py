@@ -17,8 +17,10 @@ def bulk_insert(table_name):
         cursor.execute(f"""
         BULK INSERT {table_name}
         FROM '{TEMP_CSV_FILEPATH}'
-        WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '\\n', FIRSTROW = 2)
+        WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '\\n', FIRSTROW = 1, FORMAT = 'CSV')
         """)
+
+        print(f"Bulk Insert successful. {table_name} has been filled with data\n")
 
     except pyodbc.Error as e:
         print("Error occurred:", e)
@@ -86,18 +88,22 @@ tables.update(get_xml_tables("articles"))
 tables.update(get_xml_tables("products"))
 tables.update(get_xml_tables("structurefeatures"))
 tables.update(get_xml_tables("units"))
-print(tables.keys())
-'''print("dumping data to temporary csv file for bulk insertion")
-for map in table_maps:
-    with open("C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\temp.csv", "w", newline='',encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=table_maps[map]["columns"])
-        writer.writerows(structure_group_tables[table_maps[map]["tableNameInCode"]])
-    time.sleep(2)'''
+
+for i,table_name in enumerate(table_maps):
+    print(f"dumping {table_name} data to temporary csv file for bulk insertion")
+    with open(TEMP_CSV_FILEPATH, "w", newline='',encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=table_maps[table_name]["columns"])
+        writer.writerows(tables[table_maps[table_name]["tableNameInCode"]])
+    print("inserting data into database...")
+    bulk_insert(table_name)
+    #insert(table_name, tables[table_maps[table_name]["tableNameInCode"]])
+    time.sleep(1)
+    
 
 
 
 
 #print("inserting data into database...")
-#bulk_insert("Structure_Groups", STRUCTURE_GROUPS_COLUMNS, sg_data_list)
+
 #bulk_insert("Structure_Group_Assets", STRUCTURE_GROUP_ASSETS_COLUMNS, sg_asset_data_list)
 #print("Operation Complete")

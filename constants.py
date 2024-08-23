@@ -41,14 +41,14 @@ ARTICLE_PRODUCT_LINES_COLUMNS = ['ArticleIdentifier', 'ProductLine', 'ProductLin
 ARTICLE_APPLICATIONS_COLUMNS = ['ArticleIdentifier', 'Application', 'ApplicationTag', 'LabelEnglish']
 ARTICLE_ASSETS_COLUMNS = ['ArticleIdentifier', 'AssetId', 'AssetType', 'Sequence']
 ARTICLE_LANGS_COLUMNS = ['ArticleIdentifier', 'DescriptionSystem', 'DescriptionShort', 'Language']
-ARTICLE_ATTRIBUTES_COLUMNS = ['ArticleIdentifier', 'NameInKeyLanguage', 'CombinedValue', 'CombinedValueWithUnit', 'SortValue', 'Value']
+ARTICLE_ATTRIBUTES_COLUMNS = ['ArticleIdentifier', 'NameInKeyLanguage', 'CombinedValue', 'CombinedValueWithUnit', 'SortValue']
 ARTICLE_ATTRIBUTE_VALUES_COLUMNS = ['ArticleIdentifier', 'AttributeNameInKeyLanguage', 'Identifier', 'Language', 'Value']
 ARTICLE_SALES_COLUMNS = ['ArticleIdentifier', 'Customer']
 ARTICLE_SALE_PRICE_GROUP_IDS_COLUMNS = ['ArticleIdentifier', 'SalesCustomer', 'Identifier', 'Code']
 ARTICLE_REFERENCES_COLUMNS = ['ArticleIdentifier', 'Object', 'ObjectType', 'Type', 'DisplayOrder']
 
 # Structure Features
-STRUCTURE_FEATURES_COLUMNS = ['Identifier', 'StructureReference', 'Modified', 'NameInKeyLanguage', 'DataType', 'Purpose', 'Unit', 'Annotation']
+STRUCTURE_FEATURES_COLUMNS = ['Identifier', 'StructureReference', 'Modified', 'NameInKeyLanguage', 'Datatype', 'Purpose', 'Unit', 'Annotation']
 STRUCTURE_FEATURE_LANGS_COLUMNS = ['StructureFeatureIdentifier', 'Language', 'Description']
 STRUCTURE_FEATURE_PRESET_VALUES_COLUMNS = ['StructureFeatureIdentifier', 'StructureValueProxy', 'Identifier', 'DisplayOrder', 'AssetId']
 
@@ -162,7 +162,7 @@ table_maps = {
         "columns": ARTICLE_SALES_COLUMNS,
         "tableNameInCode": "Article>Sales>Sales>fields"
     },
-    "Article_Sale_Price_Groups": {
+    "Article_Sale_Price_Group_Ids": {
         "columns": ARTICLE_SALE_PRICE_GROUP_IDS_COLUMNS,
         "tableNameInCode": "Article>Sales>Sales>PriceGroupId>fields"
     },
@@ -170,7 +170,7 @@ table_maps = {
         "columns": ARTICLE_REFERENCES_COLUMNS,
         "tableNameInCode": "Article>References>Reference>fields"
     },
-    "Article_Region_Limit_Market": {
+    "Article_Region_Limit_Markets": {
         "columns": ARTICLE_REGION_LIMIT_MARKETS_COLUMNS,
         "tableNameInCode": "Article>Regions>Region>LimitMarket>Market>fields"
     },
@@ -185,7 +185,7 @@ table_maps = {
         "tableNameInCode": "StructureFeature>Langs>Lang>fields"
     },
     "Structure_Feature_Preset_Values": {
-        "columns": STRUCTURE_FEATURES_COLUMNS,
+        "columns": STRUCTURE_FEATURE_PRESET_VALUES_COLUMNS,
         "tableNameInCode": "StructureFeature>PresetValues>PresetValue>fields"
     },
 

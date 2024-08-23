@@ -95,12 +95,23 @@ def collapse_txts(rootdict, tags_to_collapse):
                         child[key] = child.pop("txt")
                 else:
                     collapse_txts(child, tags_to_collapse)
+def reformat_modifieds(rootdict):
+    for child in rootdict:
+        if isinstance(rootdict[child], dict):
+            reformat_modifieds(rootdict[child])
+        elif isinstance(rootdict[child], list):
+            for ch in rootdict[child]:
+                reformat_modifieds(ch)
+        elif child == "Modified":
+            rootdict[child] = rootdict[child].replace("T", " ")
+
 
 def fill_and_clean_lists(root, rootdict):
     recursive_fill_lists(root, rootdict)
     tags_to_collapse = {}
     find_tags_to_collapse(rootdict, tags_to_collapse)
     collapse_txts(rootdict, tags_to_collapse)
+    reformat_modifieds(rootdict)
 
 def recursivePrint(print_dict, tabcount=0):
     for item in print_dict:
@@ -268,10 +279,13 @@ def get_varchar_lengths(table):
 
 if __name__ == '__main__':
 
-    collapsed = get_xml_tables("structurefeatures")
+    collapsed = get_xml_tables("Articles")
+    print(get_varchar_lengths(collapsed["Article>Attributes>Attribute>fields"]))
+    #rint(collapsed["StructureGroup>Attributes>Attribute>Values>Value>fields"][69554])
 
-    for i, key in enumerate(collapsed):
-        print(f"{i + 1}: {key}")
+    #for i, key in enumerate(collapsed):
+    #    print(f"{i + 1}: {key}")
+    #print(get_varchar_lengths(collapsed["Article>fields"]))
         #print(write_create_table("a",get_varchar_lengths(collapsed[key])))
     #print(get_varchar_lengths(collapsed["Unit>Langs>Lang>fields"]))
     #print(collapsed["StructureGroup>Assets>Asset>fields"])#>Attribute>Values>Value>fields"])

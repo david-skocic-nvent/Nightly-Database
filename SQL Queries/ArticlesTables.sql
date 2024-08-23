@@ -1,10 +1,27 @@
+USE DW_P360;
+
+
+DROP TABLE Article_Applications;
+DROP TABLE Article_Assets;
+DROP TABLE Article_Attribute_Values;
+DROP TABLE Article_Attributes;
+DROP TABLE Article_Langs;
+DROP TABLE Article_Product_Lines;
+DROP TABLE Article_References;
+DROP TABLE Article_Region_Limit_Markets;
+DROP TABLE Article_Regions;
+DROP TABLE Article_Sale_Price_Group_Ids;
+DROP TABLE Article_Sales;
+DROP TABLE Article_Structure_Groups;
+DROP TABLE Articles;
+
 CREATE TABLE Articles(
     [Identifier] VARCHAR(30) PRIMARY KEY,
     [Modified] DATETIME,
     [SupplierAltAID] VARCHAR(30),
     [ProductAssignment] VARCHAR(30),
     [Gtin] VARCHAR(20),
-    [MarketToPublic] VARCHAR(20)
+    [MarketToPublic] VARCHAR(20),
     [OrderUnit] VARCHAR(40),
     [ContentUnit] VARCHAR(40),
     [NoCUperOU] FLOAT,
@@ -45,7 +62,9 @@ CREATE TABLE Article_Regions (
 
     FOREIGN KEY ([ArticleIdentifier])
     REFERENCES Articles([Identifier])
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    PRIMARY KEY([ArticleIdentifier],[Region])
 );
 
 CREATE TABLE Article_Region_Limit_Markets (
@@ -110,14 +129,11 @@ CREATE TABLE Article_Attributes(
     [CombinedValueWithUnit] VARCHAR(200),
     [SortValue] VARCHAR(150),
 
-    SortValueLanguage VARCHAR(10),
-    [Value] VARCHAR(20),
-    ValueLanguage VARCHAR(10),
-    ValueIdentifier VARCHAR(10),
-
     FOREIGN KEY ([ArticleIdentifier])
     REFERENCES Articles([Identifier])
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    PRIMARY KEY([ArticleIdentifier], [NameInKeyLanguage])
 );
 
 CREATE TABLE Article_Attribute_Values(
@@ -128,7 +144,7 @@ CREATE TABLE Article_Attribute_Values(
     [Value] VARCHAR(100),
 
     FOREIGN KEY ([ArticleIdentifier], [AttributeNameInKeyLanguage])
-    REFERENCES Article_Attributes([ArticleIdentifier], [AttributeNameInKeyLanguage])
+    REFERENCES Article_Attributes([ArticleIdentifier], [NameInKeyLanguage])
     ON DELETE CASCADE
 );
 
@@ -138,7 +154,9 @@ CREATE TABLE Article_Sales(
 
     FOREIGN KEY ([ArticleIdentifier])
     REFERENCES Articles([Identifier])
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    PRIMARY KEY ([ArticleIdentifier], [Customer])
 );
 
 CREATE TABLE Article_Sale_Price_Group_Ids(

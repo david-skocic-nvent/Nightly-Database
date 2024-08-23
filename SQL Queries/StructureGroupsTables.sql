@@ -76,7 +76,7 @@ CREATE TABLE Structure_Group_Langs (
     [StructureGroupIdentifier] VARCHAR(50),
     [Language] VARCHAR(10),
     [LanguageStatus] VARCHAR(15),
-    [Name] VARCHAR(100),
+    [Name] VARCHAR(300),
     [Abstract] VARCHAR(400),
     [Content] VARCHAR(max),
 

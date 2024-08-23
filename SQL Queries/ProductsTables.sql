@@ -1,6 +1,5 @@
 USE DW_P360;
 
-DROP TABLE Product2Gs;
 DROP TABLE Product2G_Applications;
 DROP TABLE Product2G_Assets;
 DROP TABLE Product2G_Bullets;
@@ -12,9 +11,10 @@ DROP TABLE Product2G_References;
 DROP TABLE Product2G_Region_Limit_Markets;
 DROP TABLE Product2G_Regions;
 DROP TABLE Product2G_Structure_Groups;
+DROP TABLE Product2Gs;
 
 CREATE TABLE Product2Gs (
-    [Identifier] VARCHAR(30),
+    [Identifier] VARCHAR(30) PRIMARY KEY,
     [Modified] DATETIME,
     [MarketToPublic] VARCHAR(30),
     [PrimaryStructureGroupMasterStatus] VARCHAR(20),
@@ -35,10 +35,12 @@ CREATE TABLE Product2G_Regions (
     [ProductIdentifier] VARCHAR(30),
     [Region] VARCHAR(20),
     [MarketToPublic] VARCHAR(30),
-    
+
     FOREIGN KEY ([ProductIdentifier])
     REFERENCES Product2Gs([Identifier])
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    PRIMARY KEY([ProductIdentifier], [Region])
 );
 
 CREATE TABLE Product2G_Product_Lines (

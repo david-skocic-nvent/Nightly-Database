@@ -9,7 +9,7 @@ CREATE TABLE Structure_Features (
     [StructureReference] VARCHAR(15),
     [Modified] DATETIME,
     [NameInKeyLanguage] VARCHAR(120),
-    [DataType] VARCHAR(30),
+    [Datatype] VARCHAR(30),
     [Purpose] VARCHAR(120),
     [Unit] VARCHAR(40),
     [Annotation] VARCHAR(30),
