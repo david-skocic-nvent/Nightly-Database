@@ -55,7 +55,3 @@ def unzip_to_temp(whichfile: str):
         print(f"Extracting Files for {whichfile}...")
         f.extractall(constants.TEMP_DATA_FOLDER)
     
-
-unzip_to_temp('caddy')
-archive_and_clear_temp('caddy')
-#print(path_to_zip + '\\' + zip_filenames['caddy'])
