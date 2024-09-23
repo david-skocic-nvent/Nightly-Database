@@ -280,7 +280,9 @@ def get_varchar_lengths(table):
 if __name__ == '__main__':
 
     collapsed = get_xml_tables("Articles")
-    print(get_varchar_lengths(collapsed["Article>Attributes>Attribute>fields"]))
+    for table in collapsed:
+        print(get_varchar_lengths(collapsed[table]))
+    #print(get_varchar_lengths(collapsed["Article>Attributes>Attribute>fields"]))
     #rint(collapsed["StructureGroup>Attributes>Attribute>Values>Value>fields"][69554])
 
     #for i, key in enumerate(collapsed):

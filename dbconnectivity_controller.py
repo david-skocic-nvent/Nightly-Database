@@ -98,10 +98,6 @@ for i,table_name in enumerate(table_maps):
     bulk_insert(table_name)
     #insert(table_name, tables[table_maps[table_name]["tableNameInCode"]])
     time.sleep(1)
-    
-
-
-
 
 #print("inserting data into database...")
 
