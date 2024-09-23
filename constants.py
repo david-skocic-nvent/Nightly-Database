@@ -1,16 +1,12 @@
 DATA_DUMP_FOLDER = "F:\\P360Data\\NightlyP360Data"
 TEMP_DATA_FOLDER = "F:\\P360Data\\temp"
 DATA_ARCHIVE_FOLDER = "F:\\P360Data\\Archive"
-#TEMP_DATA_FOLDER = "C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data"
-ARTICLES_FILEPATH = TEMP_DATA_FOLDER+"\\catalogdata-articles.xml"
-PRODUCT2GS_FILEPATH = TEMP_DATA_FOLDER+"\\catalogdata-product2gs.xml"
+ARTICLES_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-articles.xml"
+PRODUCT2GS_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-product2gs.xml"
 STRUCTURE_FEATURES_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structurefeatures.xml"
 STRUCTURE_GROUPS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structuregroups.xml"
 UNITS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-units.xml"
 TEMP_CSV_FILEPATH = TEMP_DATA_FOLDER + "\\temp.csv"
-
-
-
 
 
 '''
