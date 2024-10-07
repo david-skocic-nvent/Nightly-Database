@@ -8,6 +8,10 @@ STRUCTURE_GROUPS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structuregroups.xm
 UNITS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-units.xml"
 TEMP_CSV_FILEPATH = TEMP_DATA_FOLDER + "\\temp.csv"
 
+FILES_IN_ZIP = ['articles', 'units', 'structuregroups', 'structurefeatures', 'products']
+BRANDS_WITH_FILES = ['caddy', 'erico', 'eriflex']
+
+
 
 '''
 field names for each table are listed below
@@ -70,7 +74,7 @@ Maps the actual table name from the sql database to the columns and the name tha
 This is nice because you can iterate over writing to csv and inserting into the database with just one loop
 '''
 
-table_maps = {
+TABLE_MAPS = {
     # Units
     "Units": {
         "columns": UNITS_COLUMNS,

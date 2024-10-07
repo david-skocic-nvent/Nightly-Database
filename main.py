@@ -1,33 +1,37 @@
+'''
+Controller for the whole program
+'''
 from unzip_and_move import archive_and_clear_temp, unzip_to_temp
 from parse_xml import *
+from constants import FILES_IN_ZIP, BRANDS_WITH_FILES, TABLE_MAPS
+from insert_data import bulk_insert
 
-different_files = ['articles', 'units', 'structuregroups', 'structurefeatures', 'products']
-brands = ['caddy', 'erico']
-tables_list = []
-for b in brands:
-    unzip_to_temp(b)
-    for f in different_files:
-        tables_list.append(get_xml_tables(f))
+def find_table_name_in_maps(table_name_from_code):
+    for table_map in TABLE_MAPS:
+        if TABLE_MAPS[table_map]['tableNameInCode'] == table_name_from_code:
+            return table_map
 
-keysets:list[set] = []
-for tables in tables_list:
-    keysets.append(set(tables.keys()))
+tables = {}
 
-print("\n\ndifference::")
-print(keysets[0].difference(keysets[1]))
-print(keysets[1].difference(keysets[0]))
-'''
-for caddy_tables, erico_tables in zip(*tables_list):
-    for table in caddy_tables:
-        if table not in erico_tables:
-            print("MISSING A TABLE-------------\n\n")
-        else:
-            varchar_len_caddy = get_varchar_lengths(caddy_tables[table])
-            varchar_len_erico = get_varchar_lengths(erico_tables[table])
-            for table_len in varchar_len_caddy:
-                if table_len not in varchar_len_erico:
-                    print(f"MISSING COLUMN {table_len} IN TABLE")
-                else:
-                    
-                print("\t" + str(get_varchar_lengths(tables[table])))
-'''
+# Loop through every brand and add all files to the database here
+for brand in BRANDS_WITH_FILES:
+
+    # unzip the files for a brand to the temporary directory
+    unzip_to_temp(brand)
+
+    # pull the xml files into tables (dictionaries) in code and save them to tables
+    for file_data_group in FILES_IN_ZIP:
+        tables.update(get_xml_tables(file_data_group))
+
+    '''
+    Loop through all the tables and bulk insert them. Loop through TABLE_MAPS 
+    instead of tables because it follows an order for primary keys and such
+    that is allowed
+    '''
+    for table_name_in_sql in TABLE_MAPS:
+        table_name_in_code = TABLE_MAPS[table_name_in_sql]["tableNameInCode"]
+        if table_name_in_code in tables:
+            bulk_insert(tables[table_name_in_code], table_name_in_sql)
+
+    tables = {}
+    archive_and_clear_temp(brand)
