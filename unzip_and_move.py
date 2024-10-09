@@ -8,6 +8,7 @@ yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
 zip_filenames = {
     "caddy": yesterday + "-catalogdata-caddy.zip",
     "erico": yesterday + "-catalogdata-erico.zip",
+    'eriflex': yesterday + "-catalogdata-eriflex.zip",
 }
 
 '''
