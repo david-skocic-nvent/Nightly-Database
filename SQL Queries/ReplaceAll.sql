@@ -141,7 +141,7 @@ CREATE TABLE Structure_Group_Langs (
 CREATE TABLE Structure_Group_Narratives (
     [StructureGroupIdentifier] VARCHAR(50),
     [Language] VARCHAR(10),
-    [Narrative] NVARCHAR(1500),
+    [Narrative] NVARCHAR(2500),
     [Sequence] INT,
 
     FOREIGN KEY ([StructureGroupIdentifier])
@@ -217,6 +217,7 @@ CREATE TABLE Structure_Feature_Preset_Values (
         [Identifier] VARCHAR(30),
         [DisplayOrder] INT,
         [AssetId] VARCHAR(60),
+        [Description] VARCHAR(150),
 
         FOREIGN KEY (StructureFeatureIdentifier)
         REFERENCES Structure_Features([Identifier])
@@ -306,7 +307,7 @@ CREATE TABLE Product2G_Narratives (
     [ProductIdentifier] VARCHAR(30),
     [Language] VARCHAR(10),
     [Sequence] INT,
-    [Narrative] VARCHAR(1800),
+    [Narrative] VARCHAR(2500),
 
     FOREIGN KEY ([ProductIdentifier])
     REFERENCES Product2Gs([Identifier])
@@ -362,7 +363,7 @@ CREATE TABLE Articles(
     [Modified] DATETIME,
     [SupplierAltAID] VARCHAR(30),
     [ProductAssignment] VARCHAR(30),
-    [Gtin] VARCHAR(20),
+    [Gtin] VARCHAR(50),
     [MarketToPublic] VARCHAR(20),
     [OrderUnit] VARCHAR(40),
     [ContentUnit] VARCHAR(40),
