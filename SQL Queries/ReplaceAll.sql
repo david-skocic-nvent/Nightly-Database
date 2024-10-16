@@ -141,7 +141,7 @@ CREATE TABLE Structure_Group_Langs (
 CREATE TABLE Structure_Group_Narratives (
     [StructureGroupIdentifier] VARCHAR(50),
     [Language] VARCHAR(10),
-    [Narrative] NVARCHAR(1200),
+    [Narrative] NVARCHAR(1500),
     [Sequence] INT,
 
     FOREIGN KEY ([StructureGroupIdentifier])
@@ -467,7 +467,7 @@ CREATE TABLE Article_Langs(
 CREATE TABLE Article_Attributes(
     [ArticleIdentifier] VARCHAR(30),
     [NameInKeyLanguage] VARCHAR(80),
-    [CombinedValue] VARCHAR(200),
+    [CombinedValue] VARCHAR(600),
     [CombinedValueWithUnit] VARCHAR(200),
     [SortValue] VARCHAR(150),
 
