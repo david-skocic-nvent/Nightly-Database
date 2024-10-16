@@ -20,17 +20,19 @@ can be left missing.
 '''
 def bulk_insert(table, table_name):
 
-    print(f"dumping {table_name} data to temporary csv file for bulk insertion")
     try:
+        print(f"dumping {table_name} data to temporary csv file for bulk insertion")
         with open(TEMP_CSV_FILEPATH, "w", newline='',encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=TABLE_MAPS[table_name]["columns"])
             writer.writerows(table)
-    except:
-        print(f"{RED}failed while dumping {table_name} to {TEMP_CSV_FILEPATH}{RESET}")
+        print(f"{GREEN}Data successfully dumped{RESET}")
+    except Exception as e:
+        print(f"{RED}failed while dumping {table_name} to {TEMP_CSV_FILEPATH}{RESET}", e)
+        print()
         return
     
-    print(f"Trying to insert data from {TEMP_CSV_FILEPATH} to database")
     try:
+        print(f"Trying to insert data from {TEMP_CSV_FILEPATH} to database")
         print("Connecting to Database...")
 
         connection = pyodbc.connect(connection_string)
@@ -45,10 +47,11 @@ def bulk_insert(table, table_name):
         WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '\\n', FIRSTROW = 1, FORMAT = 'CSV')
         """)
 
-        print(f"Bulk Insert successful. {table_name} has been filled with data\n")
+        print(f"{GREEN}Bulk Insert successful{RESET}. {table_name} has been filled with data\n")
 
     except pyodbc.Error as e:
         print(f"{RED}Error occurred:{RESET}", e)
+        print()
     finally:
         if cursor:
             cursor.close()
@@ -84,6 +87,7 @@ def insert(table_name, data):
                 
     except pyodbc.Error as e:
         print(f"{RED}Error occurred:{RESET}", e)
+        print()
     finally:
         if cursor:
             cursor.close()

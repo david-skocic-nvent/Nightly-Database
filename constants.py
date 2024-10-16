@@ -13,6 +13,7 @@ FILES_IN_ZIP = ['articles', 'units', 'structuregroups', 'structurefeatures', 'pr
 BRANDS_WITH_FILES = ['caddy', 'erico', 'eriflex']
 
 # ANSI escape codes
+GREEN = "\033[32m"
 RED = "\033[31m"
 RESET = "\033[0m"
 
