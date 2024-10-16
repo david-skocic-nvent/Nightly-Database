@@ -468,7 +468,7 @@ CREATE TABLE Article_Attributes(
     [ArticleIdentifier] VARCHAR(30),
     [NameInKeyLanguage] VARCHAR(80),
     [CombinedValue] VARCHAR(600),
-    [CombinedValueWithUnit] VARCHAR(200),
+    [CombinedValueWithUnit] VARCHAR(400),
     [SortValue] VARCHAR(150),
 
     FOREIGN KEY ([ArticleIdentifier])

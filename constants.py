@@ -1,5 +1,6 @@
 DATA_DUMP_FOLDER = "F:\\P360Data\\NightlyP360Data"
 TEMP_DATA_FOLDER = "F:\\P360Data\\temp"
+#TEMP_DATA_FOLDER = "C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\2024-10-08-catalogdata-eriflex"
 DATA_ARCHIVE_FOLDER = "F:\\P360Data\\Archive"
 ARTICLES_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-articles.xml"
 PRODUCT2GS_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-product2gs.xml"
@@ -11,6 +12,9 @@ TEMP_CSV_FILEPATH = TEMP_DATA_FOLDER + "\\temp.csv"
 FILES_IN_ZIP = ['articles', 'units', 'structuregroups', 'structurefeatures', 'products']
 BRANDS_WITH_FILES = ['caddy', 'erico', 'eriflex']
 
+# ANSI escape codes
+RED = "\033[31m"
+RESET = "\033[0m"
 
 
 '''

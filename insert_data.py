@@ -1,6 +1,6 @@
 import csv
 import pyodbc
-from constants import TABLE_MAPS, TEMP_CSV_FILEPATH
+from constants import *
 
 connection_string = (
     f'DRIVER={{ODBC Driver 17 for SQL Server}};'
@@ -26,7 +26,7 @@ def bulk_insert(table, table_name):
             writer = csv.DictWriter(f, fieldnames=TABLE_MAPS[table_name]["columns"])
             writer.writerows(table)
     except:
-        print(f"failed while dumping {table_name} to {TEMP_CSV_FILEPATH}")
+        print(f"{RED}failed while dumping {table_name} to {TEMP_CSV_FILEPATH}{RESET}")
         return
     
     print(f"Trying to insert data from {TEMP_CSV_FILEPATH} to database")
@@ -48,7 +48,7 @@ def bulk_insert(table, table_name):
         print(f"Bulk Insert successful. {table_name} has been filled with data\n")
 
     except pyodbc.Error as e:
-        print("Error occurred:", e)
+        print(f"{RED}Error occurred:{RESET}", e)
     finally:
         if cursor:
             cursor.close()
@@ -83,7 +83,7 @@ def insert(table_name, data):
                 print(i)
                 
     except pyodbc.Error as e:
-        print("Error occurred:", e)
+        print(f"{RED}Error occurred:{RESET}", e)
     finally:
         if cursor:
             cursor.close()
