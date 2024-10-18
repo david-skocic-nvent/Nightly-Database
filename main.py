@@ -13,7 +13,7 @@ def find_table_name_in_maps(table_name_from_code):
 
 tables = {}
 
-# Loop through every brand and add all files to the database here
+# Loop through every brand and add all data to tables here
 for brand in BRANDS_WITH_FILES:
 
     # unzip the files for a brand to the temporary directory
@@ -23,15 +23,21 @@ for brand in BRANDS_WITH_FILES:
     for file_data_group in FILES_IN_ZIP:
         tables.update(get_xml_tables(file_data_group))
 
-    '''
-    Loop through all the tables and bulk insert them. Loop through TABLE_MAPS 
-    instead of tables because it follows an order for primary keys and such
-    that is allowed
-    '''
-    for table_name_in_sql in TABLE_MAPS:
-        table_name_in_code = TABLE_MAPS[table_name_in_sql]["tableNameInCode"]
-        if table_name_in_code in tables:
-            bulk_insert(tables[table_name_in_code], table_name_in_sql)
-
-    tables = {}
     archive_and_clear_temp(brand)
+
+
+'''
+Loop through all the tables and bulk insert them. Loop through TABLE_MAPS 
+instead of tables because it follows an order for primary keys and such
+that is allowed
+'''
+for table_name_in_sql in TABLE_MAPS:
+    table_name_in_code = TABLE_MAPS[table_name_in_sql]["tableNameInCode"]
+    if table_name_in_code in tables:
+        bulk_insert(tables[table_name_in_code], table_name_in_sql)
+
+'''
+NEW IDEA
+instead of doing the bulk insert for an individual brand table, we do each brand table then pull the common ones to one single table (dict)
+'''
+
