@@ -21,7 +21,13 @@ for brand in BRANDS_WITH_FILES:
 
     # pull the xml files into tables (dictionaries) in code and save them to tables
     for file_data_group in FILES_IN_ZIP:
-        tables.update(get_xml_tables(file_data_group))
+        new_tables = get_xml_tables(file_data_group)
+        for table in new_tables:
+            if table in tables:
+                tables[table].update(new_tables[table])
+            else:
+                tables[table] = new_tables[table]
+            
 
     archive_and_clear_temp(brand)
 
