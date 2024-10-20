@@ -217,6 +217,48 @@ def write_create_table(tablename, fields):
 '''
 Function that returns all the contents of a table based on the xml file that is passed in. This is used by the controller to get data
 '''
+def get_table_dicts(whichFile):
+    rootdict = {}
+    match whichFile.lower():
+        case 'units':
+            print(UNITS_FILEPATH)
+            print("parsing units xml...")
+            tree = et.parse(UNITS_FILEPATH)
+            root = tree.getroot()
+            fill_and_clean_lists(root, rootdict)
+            rootdict = rootdict['Units'][0]
+
+        case 'structuregroups':
+            print("parsing structure groups xml...")
+            tree = et.parse(STRUCTURE_GROUPS_FILEPATH)
+            root = tree.getroot()
+            fill_and_clean_lists(root, rootdict)
+            rootdict = rootdict['StructureGroups'][0]
+
+        case "articles":
+            print("parsing articles xml...")
+            tree = et.parse(ARTICLES_FILEPATH)
+            root = tree.getroot()
+            fill_and_clean_lists(root, rootdict)
+            rootdict = rootdict['Articles'][0]
+        
+        case "products" | "product2gs":
+            print("parsing products xml...")
+            tree = et.parse(PRODUCT2GS_FILEPATH)
+            root = tree.getroot()
+            fill_and_clean_lists(root, rootdict)
+            rootdict = rootdict['Product2Gs'][0]
+
+        case "structurefeatures":
+            print("parsing structure features xml...")
+            tree = et.parse(STRUCTURE_FEATURES_FILEPATH)
+            root = tree.getroot()
+            fill_and_clean_lists(root, rootdict)
+            rootdict = rootdict['StructureFeatures'][0]
+    
+    return rootdict
+            
+
 def get_xml_tables(whichFile):
     rootdict = {}
     match whichFile.lower():
@@ -276,18 +318,3 @@ def get_varchar_lengths(table):
             if isinstance(row[key], str):
                 fields[key] = max(fields[key],len(row[key]))
     return fields
-
-if __name__ == '__main__':
-
-    collapsed = get_xml_tables("Articles")
-    for table in collapsed:
-        print(get_varchar_lengths(collapsed[table]))
-    #print(get_varchar_lengths(collapsed["Article>Attributes>Attribute>fields"]))
-    #rint(collapsed["StructureGroup>Attributes>Attribute>Values>Value>fields"][69554])
-
-    #for i, key in enumerate(collapsed):
-    #    print(f"{i + 1}: {key}")
-    #print(get_varchar_lengths(collapsed["Article>fields"]))
-        #print(write_create_table("a",get_varchar_lengths(collapsed[key])))
-    #print(get_varchar_lengths(collapsed["Unit>Langs>Lang>fields"]))
-    #print(collapsed["StructureGroup>Assets>Asset>fields"])#>Attribute>Values>Value>fields"])
