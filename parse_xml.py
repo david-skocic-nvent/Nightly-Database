@@ -221,7 +221,6 @@ def get_table_dicts(whichFile):
     rootdict = {}
     match whichFile.lower():
         case 'units':
-            print(UNITS_FILEPATH)
             print("parsing units xml...")
             tree = et.parse(UNITS_FILEPATH)
             root = tree.getroot()

@@ -15,17 +15,24 @@ def find_table_name_in_maps(table_name_from_code):
 Pass in two lists where each item in a list is a row in a table (a dict)
 Puts all items from list2 into list1 that arent already there.
 '''
-def combine_lists(L1:list, L2:list):
+def combine_lists(L1:list, L2:list, primary_key):
     # for each dict in the second list
-    for d in L2:
-        if d not in L1:
-            L1.append(d)
+    for d2 in L2:
+        for d in L1:
+            if d2[primary_key] == d[primary_key]:
+                break
+        else:
+            L1.append(d2)
 
 
 
 bulk_insert_data = {}
-for content_type in FILES_IN_ZIP:
-    bulk_insert_data[content_type] = {}
+for content_type, list_name in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE):
+    bulk_insert_data[content_type] = {
+        list_name:[]
+    }
+
+
 
 # Loop through every brand and add all data to tables here
 for brand in BRANDS_WITH_FILES:
@@ -33,11 +40,11 @@ for brand in BRANDS_WITH_FILES:
     # unzip the files for a brand to the temporary directory
     unzip_to_temp(brand)
 
-    for content_type, list_name in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE):
+    for content_type, list_name, primary_key in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE, PRIMARY_KEYS):
         data_to_add = get_table_dicts(content_type)
-        combine_lists(bulk_insert_data[list_name], data_to_add[list_name])
-        for k in bulk_insert_data:
-            print(len(bulk_insert_data[k]))
+        combine_lists(bulk_insert_data[content_type][list_name], data_to_add[list_name], primary_key)
+        print(len(bulk_insert_data[content_type][list_name]))
+
     archive_and_clear_temp(brand)
 
 

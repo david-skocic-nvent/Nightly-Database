@@ -13,6 +13,14 @@ FILES_IN_ZIP = ['Articles', 'Units', 'StructureGroups', 'StructureFeatures', 'Pr
 LIST_NAMES_IN_CODE = ['Article', 'Unit', 'StructureGroup', 'StructureFeature', 'Product2G']
 BRANDS_WITH_FILES = ['caddy', 'erico', 'eriflex']
 
+PRIMARY_KEYS = {
+    "Articles": "Identifier",
+    "Units": "Code",
+    "StructureGroups": "Identifier",
+    "StructureFeatures": "Identifier",
+    "Products": "Identifier",
+}
+
 # ANSI escape codes
 GREEN = "\033[32m"
 RED = "\033[31m"
