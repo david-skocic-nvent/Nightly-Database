@@ -9,7 +9,8 @@ STRUCTURE_GROUPS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structuregroups.xm
 UNITS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-units.xml"
 TEMP_CSV_FILEPATH = TEMP_DATA_FOLDER + "\\temp.csv"
 
-FILES_IN_ZIP = ['articles', 'units', 'structuregroups', 'structurefeatures', 'products']
+FILES_IN_ZIP = ['Articles', 'Units', 'StructureGroups', 'StructureFeatures', 'Products']
+LIST_NAMES_IN_CODE = ['Article', 'Unit', 'StructureGroup', 'StructureFeature', 'Product2G']
 BRANDS_WITH_FILES = ['caddy', 'erico', 'eriflex']
 
 # ANSI escape codes

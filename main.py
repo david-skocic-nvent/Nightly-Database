@@ -33,9 +33,9 @@ for brand in BRANDS_WITH_FILES:
     # unzip the files for a brand to the temporary directory
     unzip_to_temp(brand)
 
-    for content_type in FILES_IN_ZIP:
+    for content_type, list_name in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE):
         data_to_add = get_table_dicts(content_type)
-        combine_lists(bulk_insert_data[content_type[:-1]], data_to_add[content_type[:-1]])
+        combine_lists(bulk_insert_data[list_name], data_to_add[list_name])
         for k in bulk_insert_data:
             print(len(bulk_insert_data[k]))
     archive_and_clear_temp(brand)
