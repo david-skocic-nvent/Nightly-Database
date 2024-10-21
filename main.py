@@ -42,9 +42,13 @@ for brand in BRANDS_WITH_FILES:
 
     for content_type, list_name in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE):
         data_to_add = get_table_dicts(content_type)
+        print(f"Adding {brand} data to {content_type} list")
+        rows_before_addition = len(bulk_insert_data[content_type][list_name])
         combine_lists(bulk_insert_data[content_type][list_name], data_to_add[list_name], content_type)
-        print(len(bulk_insert_data[content_type][list_name]))
+        rows_after_addition = len(bulk_insert_data[content_type][list_name])
+        print(f"{rows_after_addition - rows_before_addition} rows added to {content_type} data")
 
+    print("Clearing tempfile and archiving zip files...")
     archive_and_clear_temp(brand)
 
 '''
