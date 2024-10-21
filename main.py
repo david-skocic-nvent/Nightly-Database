@@ -4,7 +4,7 @@ Controller for the whole program
 from unzip_and_move import archive_and_clear_temp, unzip_to_temp
 from parse_xml import *
 from constants import FILES_IN_ZIP, BRANDS_WITH_FILES, TABLE_MAPS
-from insert_data import bulk_insert
+from queries import *
 
 def find_table_name_in_maps(table_name_from_code):
     for table_map in TABLE_MAPS:
@@ -15,22 +15,22 @@ def find_table_name_in_maps(table_name_from_code):
 Pass in two lists where each item in a list is a row in a table (a dict)
 Puts all items from list2 into list1 that arent already there.
 '''
-def combine_lists(L1:list, L2:list, primary_key):
+def combine_lists(L1:list, L2:list, content_type):
     # for each dict in the second list
-    for d2 in L2:
-        for d in L1:
-            if d2[primary_key] == d[primary_key]:
-                break
-        else:
-            L1.append(d2)
+    for d in L2:
+        if d[PRIMARY_KEYS[content_type]] not in primary_keys_in_bulk_insert_data[content_type]:
+            L1.append(d)
+            primary_keys_in_bulk_insert_data[content_type].add(d[PRIMARY_KEYS[content_type]])
 
 
+primary_keys_in_bulk_insert_data = {}
 
 bulk_insert_data = {}
 for content_type, list_name in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE):
     bulk_insert_data[content_type] = {
         list_name:[]
     }
+    primary_keys_in_bulk_insert_data[content_type] = set()
 
 
 
@@ -40,13 +40,23 @@ for brand in BRANDS_WITH_FILES:
     # unzip the files for a brand to the temporary directory
     unzip_to_temp(brand)
 
-    for content_type, list_name, primary_key in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE, PRIMARY_KEYS):
+    for content_type, list_name in zip(FILES_IN_ZIP, LIST_NAMES_IN_CODE):
         data_to_add = get_table_dicts(content_type)
-        combine_lists(bulk_insert_data[content_type][list_name], data_to_add[list_name], primary_key)
+        combine_lists(bulk_insert_data[content_type][list_name], data_to_add[list_name], content_type)
         print(len(bulk_insert_data[content_type][list_name]))
 
     archive_and_clear_temp(brand)
 
+'''
+clear all data from database by executing this script
+TODO: write a script to drop all data without removing the tables themselves
+'''
+clear_database()
+
+
+bulk_insert_tables = {}
+for content_type in bulk_insert_data:
+    bulk_insert_tables.update(collapse_hierarchy(bulk_insert_data[content_type]))
 
 '''
 Loop through all the tables and bulk insert them. Loop through TABLE_MAPS 
@@ -55,11 +65,7 @@ that is allowed
 '''
 for table_name_in_sql in TABLE_MAPS:
     table_name_in_code = TABLE_MAPS[table_name_in_sql]["tableNameInCode"]
-    if table_name_in_code in bulk_insert_data:
-        bulk_insert(bulk_insert_data[table_name_in_code], table_name_in_sql)
+    if table_name_in_code in bulk_insert_tables:
+        bulk_insert(bulk_insert_tables[table_name_in_code], table_name_in_sql)
 
-'''
-NEW IDEA
-instead of doing the bulk insert for an individual brand table, we do each brand table then pull the common ones to one single table (dict)
-'''
 

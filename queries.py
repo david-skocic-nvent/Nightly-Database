@@ -9,6 +9,34 @@ connection_string = (
     'Trusted_Connection=yes;'
 )
 
+def clear_database():
+    try:
+
+        print("Reading from file...")
+        with open("SQL Queries\\ReplaceAll.sql", 'r') as f:
+            query = f.read()
+
+        print("Connecting to database...")
+
+        connection = pyodbc.connect(connection_string)
+        connection.autocommit = True
+        cursor = connection.cursor()
+
+        print(f"Removing all data from the database...")
+        cursor.execute(query)
+        print(f"{GREEN}Database cleared Successfully{RESET}")
+
+    except Exception as e:
+        print(f"{RED}Failed when clearing the database{RESET}", e)
+        print()
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
 '''
 Function to bulk insert data from a table in dictionary form to a table in SQL Server
 It does this by using a temporary file to output the dictionary as a CSV, then loading

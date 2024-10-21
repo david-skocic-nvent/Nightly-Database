@@ -1,6 +1,6 @@
 DATA_DUMP_FOLDER = "F:\\P360Data\\NightlyP360Data"
-TEMP_DATA_FOLDER = "F:\\P360Data\\temp"
-#TEMP_DATA_FOLDER = "C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\temp"
+#TEMP_DATA_FOLDER = "F:\\P360Data\\temp"
+TEMP_DATA_FOLDER = "C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\temp"
 DATA_ARCHIVE_FOLDER = "F:\\P360Data\\Archive"
 ARTICLES_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-articles.xml"
 PRODUCT2GS_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-product2gs.xml"

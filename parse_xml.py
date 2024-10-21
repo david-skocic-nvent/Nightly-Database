@@ -1,14 +1,16 @@
 import xml.etree.ElementTree as et
 from constants import *
 
-# these foreign keys are a little hard to understand:
-# basically all these foreign keys are for a tables that reference some parent table, or data from inside of the
-# xml element table that at references (like if a structuregroup has 4 regions, these regions are in a regions table that references structuregroups)
-# These keys are not meant for something that just references some other table that is not a parent to it (if an element has a units field that references 
-# the units table for example). The keys in this dictionary are at the level in the recursion that you can find this information. For example, when the key is
-# StructureGroup>fields, you are within a structuregroup object so you have access to all its fields including its identifier, hence the xml_field_name in the associated dict.
-# In this case, every nested table (one that references the structuregroup table as a child, like regions from the previous example) needs to know the identifier for 
-# structuregroups, so within each child table it copies the value from xml_field_name to column_name in the child table and now the child can reference the parent.
+'''
+these foreign keys are a little hard to understand:
+basically all these foreign keys are for a tables that reference some parent table, or data from inside of the
+xml element table that at references (like if a structuregroup has 4 regions, these regions are in a regions table that references structuregroups)
+These keys are not meant for something that just references some other table that is not a parent to it (if an element has a units field that references 
+the units table for example). The keys in this dictionary are at the level in the recursion that you can find this information. For example, when the key is
+StructureGroup>fields, you are within a structuregroup object so you have access to all its fields including its identifier, hence the xml_field_name in the associated dict.
+In this case, every nested table (one that references the structuregroup table as a child, like regions from the previous example) needs to know the identifier for 
+structuregroups, so within each child table it copies the value from xml_field_name to column_name in the child table and now the child can reference the parent.
+'''
 foreign_keys = {
     "StructureGroup>fields": {"xml_field_name": "Identifier", "column_name": "StructureGroupIdentifier"},
     "Attribute>fields": {"xml_field_name": "NameInKeyLanguage", "column_name": "AttributeNameInKeyLanguage"},
