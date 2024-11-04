@@ -8,6 +8,7 @@ STRUCTURE_FEATURES_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structurefeature
 STRUCTURE_GROUPS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structuregroups.xml"
 UNITS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-units.xml"
 TEMP_CSV_FILEPATH = TEMP_DATA_FOLDER + "\\temp.csv"
+LOG_FILEPATH = "F:\\P360Data\\Database-Refresh\\log.txt"
 
 FILES_IN_ZIP = ['Articles', 'Units', 'StructureGroups', 'StructureFeatures', 'Products']
 LIST_NAMES_IN_CODE = ['Article', 'Unit', 'StructureGroup', 'StructureFeature', 'Product2G']

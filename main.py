@@ -5,6 +5,8 @@ from unzip_and_move import archive_and_clear_temp, unzip_to_temp
 from parse_xml import *
 from constants import FILES_IN_ZIP, BRANDS_WITH_FILES, TABLE_MAPS
 from queries import *
+import sys
+import time
 
 def find_table_name_in_maps(table_name_from_code):
     for table_map in TABLE_MAPS:
@@ -21,6 +23,14 @@ def combine_lists(L1:list, L2:list, content_type):
         if d[PRIMARY_KEYS[content_type]] not in primary_keys_in_bulk_insert_data[content_type]:
             L1.append(d)
             primary_keys_in_bulk_insert_data[content_type].add(d[PRIMARY_KEYS[content_type]])
+
+
+print("Running.....")
+
+# redirect print statements to a log file to debug later
+logfile = open(LOG_FILEPATH,"w")
+stdout = sys.stdout
+sys.stdout = logfile
 
 
 primary_keys_in_bulk_insert_data = {}
@@ -73,3 +83,6 @@ for table_name_in_sql in TABLE_MAPS:
         bulk_insert(bulk_insert_tables[table_name_in_code], table_name_in_sql)
 
 
+sys.stdout = stdout
+print("Complete")
+time.sleep(3)
