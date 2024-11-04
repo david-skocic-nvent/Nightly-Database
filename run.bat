@@ -1,0 +1,1 @@
+start "C:\Program Files\Python313\python.exe" F:\P360Data\Database-Refresh\main.py
