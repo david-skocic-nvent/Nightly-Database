@@ -1,15 +1,24 @@
-from datetime import timedelta, datetime
 from constants import *
 import zipfile
 import os
 
-yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
 
-zip_filenames = {
-    "caddy": yesterday + "-catalogdata-caddy.zip",
-    "erico": yesterday + "-catalogdata-erico.zip",
-    'eriflex': yesterday + "-catalogdata-eriflex.zip",
-}
+directory = DATA_DUMP_FOLDER
+# List all files in the directory
+files = os.listdir(directory)
+# Filter out only files (not directories)
+files = [f for f in files if os.path.isfile(os.path.join(directory, f))]
+
+zip_filenames = {}
+# Print the list of files
+for file in files:
+    if "caddy" in file:
+        zip_filenames["caddy"] = file
+    elif "erico" in file:
+        zip_filenames["erico"] = file
+    elif "eriflex" in file:
+        zip_filenames["eriflex"] = file
+
 
 '''
 This function should copy the zip folder from the original dump area to the archive folder and clear all files in the temp folder
