@@ -28,6 +28,7 @@ def combine_lists(L1:list, L2:list, content_type):
 print("Running.....")
 
 # redirect print statements to a log file to debug later
+#TODO rewrite so prints go to stdout and log file
 logfile = open(LOG_FILEPATH,"w")
 stdout = sys.stdout
 sys.stdout = logfile
