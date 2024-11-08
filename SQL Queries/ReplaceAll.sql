@@ -239,10 +239,14 @@ CREATE TABLE Product2Gs (
 CREATE TABLE Product2G_Structure_Groups (
     [ProductIdentifier] VARCHAR(30),
     [Structure] VARCHAR(30),
-    [StructureGroup] VARCHAR(80),
+    [StructureGroup] VARCHAR(50),
 
     FOREIGN KEY ([ProductIdentifier])
     REFERENCES Product2Gs([Identifier])
+    ON DELETE CASCADE,
+
+    FOREIGN KEY ([StructureGroup])
+    REFERENCES Structure_Groups([Identifier])
     ON DELETE CASCADE
 );
 
@@ -379,6 +383,10 @@ CREATE TABLE Articles(
 
     FOREIGN KEY ([ContentUnit])
     REFERENCES Units([Code])
+    ON DELETE NO ACTION,
+
+    FOREIGN KEY ([ProductAssignment])
+    REFERENCES Product2Gs([Identifier])
     ON DELETE NO ACTION
 );
 
