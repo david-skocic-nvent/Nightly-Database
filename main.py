@@ -34,7 +34,6 @@ logfile = open(LOG_FILEPATH,"w")
 
 stdout = sys.stdout
 sys.stdout = Tee(stdout, logfile)
-exit()
 
 primary_keys_in_bulk_insert_data = {}
 
