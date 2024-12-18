@@ -5,6 +5,7 @@ from unzip_and_move import archive_and_clear_temp, unzip_to_temp
 from parse_xml import *
 from constants import FILES_IN_ZIP, BRANDS_WITH_FILES, TABLE_MAPS
 from queries import *
+from Tee import Tee
 import sys
 import time
 
@@ -30,9 +31,10 @@ print("Running.....")
 # redirect print statements to a log file to debug later
 #TODO rewrite so prints go to stdout and log file
 logfile = open(LOG_FILEPATH,"w")
-stdout = sys.stdout
-sys.stdout = logfile
 
+stdout = sys.stdout
+sys.stdout = Tee(stdout, logfile)
+exit()
 
 primary_keys_in_bulk_insert_data = {}
 

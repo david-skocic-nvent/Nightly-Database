@@ -1,14 +1,20 @@
-DATA_DUMP_FOLDER = "F:\\P360Data\\NightlyP360Data"
-#TEMP_DATA_FOLDER = "F:\\P360Data\\temp"
-TEMP_DATA_FOLDER = "C:\\Users\\E2023355\\OneDrive - nVent Management Company\\Documents\\VSCode\\Projects\\Nightly Database\\Sample Data\\temp"
-DATA_ARCHIVE_FOLDER = "F:\\P360Data\\Archive"
+from load_env import load_dotenv
+import os
+
+load_dotenv()
+
+DATA_DUMP_FOLDER = os.getenv("DATA_DUMP_FOLDER")
+TEMP_DATA_FOLDER = os.getenv("TEMP_DATA_FOLDER")
+DATA_ARCHIVE_FOLDER = os.getenv("DATA_ARCHIVE_FOLDER")
+LOG_FILEPATH = os.getenv("LOG_FILEPATH")
+
 ARTICLES_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-articles.xml"
 PRODUCT2GS_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-product2gs.xml"
 STRUCTURE_FEATURES_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structurefeatures.xml"
 STRUCTURE_GROUPS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-structuregroups.xml"
 UNITS_FILEPATH = TEMP_DATA_FOLDER + "\\catalogdata-units.xml"
 TEMP_CSV_FILEPATH = TEMP_DATA_FOLDER + "\\temp.csv"
-LOG_FILEPATH = "F:\\P360Data\\Database-Refresh\\log.txt"
+
 
 FILES_IN_ZIP = ['Articles', 'Units', 'StructureGroups', 'StructureFeatures', 'Products']
 LIST_NAMES_IN_CODE = ['Article', 'Unit', 'StructureGroup', 'StructureFeature', 'Product2G']
