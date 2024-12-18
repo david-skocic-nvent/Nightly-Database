@@ -1,12 +1,15 @@
 from load_env import load_dotenv
+from pathlib import Path
 import os
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent / '.env')
 
 DATA_DUMP_FOLDER = os.getenv("DATA_DUMP_FOLDER")
 TEMP_DATA_FOLDER = os.getenv("TEMP_DATA_FOLDER")
 DATA_ARCHIVE_FOLDER = os.getenv("DATA_ARCHIVE_FOLDER")
 LOG_FILEPATH = os.getenv("LOG_FILEPATH")
+QUERY_FOLDER = os.getenv("QUERY_FOLDER")
+CONNECTION_STRING = os.getenv("CONNECTION_STRING")
 
 ARTICLES_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-articles.xml"
 PRODUCT2GS_FILEPATH = TEMP_DATA_FOLDER +"\\catalogdata-product2gs.xml"

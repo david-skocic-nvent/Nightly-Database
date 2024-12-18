@@ -2,23 +2,16 @@ import csv
 import pyodbc
 from constants import *
 
-connection_string = (
-    f'DRIVER={{ODBC Driver 17 for SQL Server}};'
-    'SERVER=localhost;'
-    'DATABASE=DW_P360;'
-    'Trusted_Connection=yes;'
-)
-
 def clear_database():
     try:
 
         print("Reading from file...")
-        with open("SQL Queries\\ReplaceAll.sql", 'r') as f:
+        with open(QUERY_FOLDER + "\\ReplaceAll.sql", 'r') as f:
             query = f.read()
 
         print("Connecting to database...")
 
-        connection = pyodbc.connect(connection_string)
+        connection = pyodbc.connect(CONNECTION_STRING)
         connection.autocommit = True
         cursor = connection.cursor()
 
@@ -63,7 +56,7 @@ def bulk_insert(table, table_name):
         print(f"Trying to insert data from {TEMP_CSV_FILEPATH} to database")
         print("Connecting to Database...")
 
-        connection = pyodbc.connect(connection_string)
+        connection = pyodbc.connect(CONNECTION_STRING)
         connection.autocommit = True
         cursor = connection.cursor()
 
@@ -96,7 +89,7 @@ instead of wiping the DB every time
 '''
 def insert(table_name, data):
     try:
-        connection = pyodbc.connect(connection_string)
+        connection = pyodbc.connect(CONNECTION_STRING)
         print(f"Connected to Server to add to table {table_name}")
         connection.autocommit = True
 

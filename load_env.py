@@ -18,13 +18,3 @@ def load_dotenv(dotenv_path=".env"):
             
             # Set the environment variable
             os.environ[key] = value
-
-# Load the .env file
-load_dotenv()
-
-# Access environment variables
-db_host = os.getenv('DB_HOST')
-db_user = os.getenv('DB_USER')
-db_password = os.getenv('DB_PASSWORD')
-
-print(f"Connecting to database at {db_host} with user {db_user}")
